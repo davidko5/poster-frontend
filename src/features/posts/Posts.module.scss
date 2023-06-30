@@ -1,0 +1,220 @@
+$moderateBlue: hsl(238, 40%, 52%);
+$softRed: hsl(358, 79%, 66%);
+$lightGrayishBlue: hsl(239, 57%, 85%);
+$paleRed: hsl(357, 100%, 86%);
+$darkBlue: hsl(212, 24%, 26%);
+$grayishBlue: hsl(211, 10%, 45%);
+$lightGray: hsl(223, 19%, 93%);
+$veryLightGray: hsl(228, 33%, 97%);
+$white: hsl(0, 0%, 100%);
+
+.postsPreviewContainer {
+  margin: 100px 50px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.postPreviewContainer {
+  width: 200px;
+  margin: 0 10px 50px;
+  padding-left: 10px;
+  box-shadow: 0px 5px 15px 0px rgba(66, 68, 90, 1);
+  border-radius: 5px;
+  background-color: $white;
+}
+
+.postContainer {
+  margin: 50px auto 0;
+  min-width: 350px;
+  width: 90%;
+}
+
+.postBody,
+.commentBody,
+.replyInputContainer {
+  display: flex;
+  padding: 20px;
+  background-color: $white;
+  border-radius: 9px;
+}
+
+.commentsContainer {
+  margin-left: 37px;
+  border-left: solid $lightGray 3px;
+}
+
+.repliesContainer {
+  margin-left: 76px;
+  border-left: solid $lightGray 3px;
+  .replyInputContainer {
+    margin-left: 39px;
+  }
+}
+
+.commentContainer {
+  .replyInputContainer {
+    margin-left: 39px;
+  }
+}
+
+.commentBody {
+  margin: 20px 0 0 39px;
+}
+
+.userLabelAndContentContainer {
+  width: 100%;
+}
+
+.plusMinusInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: start;
+  background-color: $lightGray;
+  width: 38px;
+  border-radius: 9px;
+  margin-right: 20px;
+  padding: 5px 0;
+
+  .iconContainer {
+    width: 38px;
+    height: 11px;
+    .iconPlus {
+      width: 11px;
+      height: 11px;
+      margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url("/images/icon-plus.svg");
+    }
+    .iconMinus {
+      width: 11px;
+      height: 3px;
+      margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url("/images/icon-minus.svg");
+    }
+  }
+
+  .iconContainer:hover {
+    cursor: pointer;
+    .iconPlus {
+      background-image: url("/images/icon-plus-hovered.svg");
+    }
+    .iconMinus {
+      background-image: url("/images/icon-minus-hovered.svg");
+    }
+  }
+  .plusMinusInputScore {
+    color: $moderateBlue;
+    font-weight: 500;
+    margin: 10px 0;
+  }
+}
+
+.postAuthorImgNameTimeAgo {
+  display: flex;
+  align-items: center;
+  > * {
+    margin-right: 10px;
+  }
+  img {
+    width: 40px;
+  }
+  .replyBtn {
+    margin-left: auto;
+    .replyIcon {
+      display: inline-block;
+      background-image: url("/images/icon-reply.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 13px;
+      height: 13px;
+      margin-right: 7px;
+    }
+    span {
+      color: $moderateBlue;
+      font-weight: 500;
+    }
+  }
+
+  .replyBtn:hover {
+    cursor: pointer;
+    .replyIcon {
+      background-image: url("/images/icon-reply-hovered.svg");
+    }
+    span {
+      color: $lightGrayishBlue;
+    }
+  }
+  .youLabelContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 20px;
+    font-size: 0.9rem;
+    background-color: $moderateBlue;
+    color: white;
+    border-radius: 3px;
+    span {
+      margin: 0 0 3px 0;
+    }
+  }
+}
+
+.userName {
+  font-weight: 500;
+}
+
+.content {
+  color: $grayishBlue;
+  .replyAuthorReference {
+    color: $moderateBlue;
+    font-weight: 500;
+  }
+}
+
+.timeAgo {
+  color: $grayishBlue;
+}
+
+.replyInputContainer {
+  margin: 20px 0;
+  img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+  }
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 100px;
+    border: 1px solid $lightGray;
+    border-radius: 9px;
+    margin-right: 20px;
+  }
+
+  textarea:focus {
+    outline-color: $lightGrayishBlue;
+  }
+
+  .replyInputSendBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $moderateBlue;
+    color: $white;
+    height: 50px;
+    width: 120px;
+    border-radius: 9px;
+  }
+
+  .replyInputSendBtn:hover {
+    background-color: $lightGrayishBlue;
+    cursor: pointer;
+  }
+
+}
