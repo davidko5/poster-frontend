@@ -11,10 +11,11 @@ export const PostList = () => {
 
   const orderedPostsIds = useAppSelector(selectPostsIds)
   const postsFetchStatus = useAppSelector((state) => state.posts.status)
+
   useEffect(() => {
-    if (postsFetchStatus === "idle") dispatch(fetchPosts())
+    // if (postsFetchStatus === "idle") dispatch(fetchPosts())
     // dispatch(fetchPosts())
-  })
+  }, [orderedPostsIds])
 
   const PostExcerpt = ({ postId }: { postId: EntityId }) => {
     const post = useAppSelector((state) => selectPostById(state, postId))

@@ -27,7 +27,7 @@ $white: hsl(0, 0%, 100%);
 .postContainer {
   margin: 50px auto 0;
   min-width: 350px;
-  width: 90%;
+  width: 70%;
 }
 
 .postBody,
@@ -149,6 +149,60 @@ $white: hsl(0, 0%, 100%);
       color: $lightGrayishBlue;
     }
   }
+
+  .deleteEditBtnsContainer {
+    margin-left: auto;
+    display: flex;
+    .deleteBtn {
+      .deleteIcon {
+        display: inline-block;
+        background-image: url("/images/icon-delete.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 13px;
+        height: 13px;
+        margin-right: 7px;
+      }
+      span {
+        color: $softRed;
+        font-weight: 500;
+      }
+    }
+    .deleteBtn:hover {
+      cursor: pointer;
+      .deleteIcon {
+        background-image: url("/images/icon-delete-hovered.svg");
+      }
+      span{
+        color: $paleRed;
+      }
+    }
+    .editBtn {
+      margin-left: 20px;
+      .editIcon {
+        display: inline-block;
+        background-image: url("/images/icon-edit.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 13px;
+        height: 13px;
+        margin-right: 7px;
+      }
+      span {
+        color: $moderateBlue;
+        font-weight: 500;
+      }
+    }
+    .editBtn:hover {
+      cursor: pointer;
+      .editIcon {
+        background-image: url("/images/icon-edit-hovered.svg");
+      }
+      span{
+        color: $lightGrayishBlue;
+      }
+    }
+  }
   .youLabelContainer {
     display: flex;
     justify-content: center;
@@ -194,14 +248,50 @@ $white: hsl(0, 0%, 100%);
     height: 100px;
     border: 1px solid $lightGray;
     border-radius: 9px;
-    margin-right: 20px;
+    // margin-right: 20px;
   }
 
   textarea:focus {
     outline-color: $lightGrayishBlue;
   }
 
-  .replyInputSendBtn {
+  .replyInputBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $moderateBlue;
+    color: $white;
+    height: 50px;
+    min-width: 120px;
+    width: 120px;
+    border-radius: 9px;
+    margin-left: 20px;
+  }
+
+  .replyInputBtn:hover {
+    background-color: $lightGrayishBlue;
+    cursor: pointer;
+  }
+}
+
+.editingContainer {
+  margin-top: 20px;
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 100px;
+    border: 1px solid $lightGray;
+    border-radius: 9px;
+    margin-right: 2.5px;
+    padding: 0;
+  }
+  textarea:focus {
+    outline-color: $lightGrayishBlue;
+  }
+
+  .editingUpdateBtn {
+    width: 120px;
+    margin: 16px 0 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,10 +301,8 @@ $white: hsl(0, 0%, 100%);
     width: 120px;
     border-radius: 9px;
   }
-
-  .replyInputSendBtn:hover {
-    background-color: $lightGrayishBlue;
+  .editingUpdateBtn:hover {
     cursor: pointer;
+    background-color: $lightGrayishBlue;
   }
-
 }
