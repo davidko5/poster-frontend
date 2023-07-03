@@ -8,20 +8,77 @@ $lightGray: hsl(223, 19%, 93%);
 $veryLightGray: hsl(228, 33%, 97%);
 $white: hsl(0, 0%, 100%);
 
+.postListPageContainer {
+  padding: 100px 50px 0;
+}
+
 .postsPreviewContainer {
-  margin: 100px 50px 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.notFoundContainer {
+  box-sizing: border-box;
+  width: 300px;
+  margin: 100px auto;
+  padding: 70px 0;
+  text-align: center;
+  background-color: $white;
+  font-size: 32px;
+  font-weight: 500;
+  color: $darkBlue;
+  border-radius: 10px;
+  transition: box-shadow 0.3s;
+  box-shadow: 0px 0px 15px $grayishBlue;
+}
+
+.notFoundContainer:hover {
+  box-shadow: 0px 0px 35px $grayishBlue;
 }
 
 .postPreviewContainer {
-  width: 200px;
-  margin: 0 10px 50px;
-  padding-left: 10px;
-  box-shadow: 0px 5px 15px 0px rgba(66, 68, 90, 1);
+  min-width: 300px;
+  width: 380px;
+  // height: 120px;
+  margin: 0 15px 30px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px $grayishBlue;
+  transition: box-shadow 0.3s;
   border-radius: 5px;
   background-color: $white;
+  word-break: break-all;
+}
+
+.postPreviewContainer:hover {
+  box-shadow: 0px 0px 35px $grayishBlue;
+  cursor: pointer;
+}
+
+.addPostBtn {
+  position: fixed;
+  top: calc(100% - 70px);
+  // bottom: 0;
+  left: calc(100vw - 80px);
+  background-color: $moderateBlue;
+  width: 50px;
+  height: 50px;
+  padding: 0px;
+  border: none;
+  border-radius: 45px;
+  img {
+    width: 50px;
+    height: 50px;
+  }
+  font-size: 0;
+}
+
+.addPostBtn:hover {
+  background-color: $lightGrayishBlue;
+  cursor: pointer;
+}
+.addPostBtn:focus {
+  outline-color: $lightGrayishBlue;
 }
 
 .postContainer {
@@ -123,6 +180,9 @@ $white: hsl(0, 0%, 100%);
   img {
     width: 40px;
   }
+  .userName {
+    font-weight: 500;
+  }
   .replyBtn {
     margin-left: auto;
     .replyIcon {
@@ -173,7 +233,7 @@ $white: hsl(0, 0%, 100%);
       .deleteIcon {
         background-image: url("/images/icon-delete-hovered.svg");
       }
-      span{
+      span {
         color: $paleRed;
       }
     }
@@ -198,7 +258,7 @@ $white: hsl(0, 0%, 100%);
       .editIcon {
         background-image: url("/images/icon-edit-hovered.svg");
       }
-      span{
+      span {
         color: $lightGrayishBlue;
       }
     }
@@ -229,6 +289,7 @@ $white: hsl(0, 0%, 100%);
     color: $moderateBlue;
     font-weight: 500;
   }
+  word-break: break-all;
 }
 
 .timeAgo {
@@ -248,7 +309,6 @@ $white: hsl(0, 0%, 100%);
     height: 100px;
     border: 1px solid $lightGray;
     border-radius: 9px;
-    // margin-right: 20px;
   }
 
   textarea:focus {
@@ -304,5 +364,49 @@ $white: hsl(0, 0%, 100%);
   .editingUpdateBtn:hover {
     cursor: pointer;
     background-color: $lightGrayishBlue;
+  }
+}
+
+.textareaModalContainer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  backdrop-filter: blur(3px);
+}
+
+.textareaModal {
+  display: flex;
+  flex-direction: column;
+  margin: 25vh auto;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 0px 35px $grayishBlue;
+  width: 400px;
+  textarea {
+    margin: 0 auto;
+    resize: none;
+    width: 99%;
+    height: 200px;
+    border: 1px solid $lightGray;
+    border-radius: 9px;
+    margin-right: 2.5px;
+    font-size: 18px;
+  }
+  textarea:focus {
+    outline-color: $lightGrayishBlue;
+  }
+  .confirmationBtn {
+    margin: 10px 0 0 auto;
+    width: 120px;
+    height: 50px;
+    border: none;
+    border-radius: 9px;
+    background-color: $moderateBlue;
+    color: $white;
+    font-size: 16px;
+    font-weight: 500;
   }
 }

@@ -27,7 +27,7 @@ export const Navbar = () => {
       <section>
         <h1 className={styles.logoHeader}>Poster</h1>
         <h2 className={styles.logoHeader}>
-          Made using React, Redux, Express, MongoDB
+          Made using React, Redux, Express and MongoDB
         </h2>
         <div className={styles.navBtnsAndSelectContainer}>
           <div>

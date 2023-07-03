@@ -20,37 +20,8 @@ import { PlusMinusInput } from "./PlusMinusInput"
 import { TimeAgo } from "./TimeAgo"
 import { ReplyInput } from "./ReplyInput"
 import { EditInput } from "./EditInput"
-
-interface Author {
-  _id: string
-  userName: string
-  createdAt: string
-  updatedAt: string
-  image: {
-    png: string
-    webp: string
-  }
-}
-
-interface Comment {
-  _id: string
-  content: string
-  score: number
-  author: Author
-  createdAt: string
-  updatedAt: string
-  replies: Array<Reply>
-}
-
-interface Reply {
-  _id: string
-  content: string
-  score: number
-  author: Author
-  repliedTo: string
-  createdAt: string
-  updatedAt: string
-}
+import { YouLabel } from "./YouLabel"
+import { Comment, Reply } from "../../utils/types"
 
 export const SinglePost = () => {
   const dispatch = useAppDispatch()
@@ -168,7 +139,7 @@ export const SinglePost = () => {
                 alt="author"
               />
               <span className={styles.userName}>{reply.author.userName}</span>
-              <YouLabel entity={reply} />
+              <YouLabel entity={reply} currentUser={currentUser} />
               <TimeAgo timestamp={reply.createdAt} />
               {reply.author._id !== currentUser ? (
                 <ReplyBtn
@@ -256,7 +227,7 @@ export const SinglePost = () => {
                 alt="author"
               />
               <span className={styles.userName}>{comment.author.userName}</span>
-              <YouLabel entity={comment} />
+              <YouLabel entity={comment} currentUser={currentUser} />
               <TimeAgo timestamp={comment.createdAt} />
               {comment.author._id !== currentUser ? (
                 <ReplyBtn
@@ -358,13 +329,13 @@ export const SinglePost = () => {
     )
   }
 
-  const YouLabel = ({ entity }: { entity: { author: Author } }) => {
-    return entity.author._id === currentUser ? (
-      <div className={styles.youLabelContainer}>
-        <span className={styles.youLabel}>you</span>
-      </div>
-    ) : null
-  }
+  // const YouLabel = ({ entity }: { entity: { author: Author } }) => {
+  //   return entity.author._id === currentUser ? (
+  //     <div className={styles.youLabelContainer}>
+  //       <span className={styles.youLabel}>you</span>
+  //     </div>
+  //   ) : null
+  // }
 
   const ReplyBtn = ({
     inputOpenSet,
@@ -441,7 +412,7 @@ export const SinglePost = () => {
                 alt="author"
               />
               <span className={styles.userName}>{post.author.userName}</span>
-              <YouLabel entity={post} />
+              <YouLabel entity={post} currentUser={currentUser} />
               <TimeAgo timestamp={post.createdAt} />
               {post.author._id === currentUser && (
                 <DeleteEditBtns
@@ -469,7 +440,6 @@ export const SinglePost = () => {
             </div>
             {!isEditing ? (
               <>
-                <h2>{post.title}</h2>
                 <p className={styles.content}>{post.content}</p>
               </>
             ) : (

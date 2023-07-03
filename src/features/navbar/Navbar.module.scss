@@ -9,29 +9,34 @@ $veryLightGray: hsl(228, 33%, 97%);
 $white: hsl(0, 0%, 100%);
 
 .navbarContainer {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid $lightGray;
   background-color: white;
 }
 
 section h1 {
   margin: 0px;
   font-size: 3rem;
+  margin-left: 10px;
+  color: $darkBlue;
 }
 
 section h2 {
   margin: 0px;
   font-size: 2rem;
+  margin-left: 10px;
+  color: $darkBlue;
 }
 
 .navBtnsAndSelectContainer {
   display: flex;
+  align-items: center;
   // actually there is Link in Navbar.tsx element but it is not referencable for some reason...
-
   div {
-    height: 20px;
+    height: 25px;
     background-color: $moderateBlue;
     border-radius: 9px;
-    margin-left: 10px;
+    margin: 10px 0 10px 10px;
+    padding-top: 5px;
     a {
       color: $white;
       text-decoration: none;
@@ -39,10 +44,30 @@ section h2 {
     }
     a:hover {
       color: $white;
-      text-decoration:underline;
+      text-decoration: underline;
     }
   }
+  div:hover {
+    background-color: $lightGrayishBlue;
+  }
   .userSelector {
-    margin-left: 20px;
+    margin: 0 10px 0 auto;
+    // padding: 0 5px 0 0;
+    // width: 150px;
+    height: 35px;
+    border: 1px solid $moderateBlue;
+    border-radius: 9px;
+    background-color: $moderateBlue;
+    color: $white;
+    font-size: 16px;
+    font-weight: 500;
+    // text-align: center;
+  }
+  .userSelector:hover {
+    // background-color: $lightGrayishBlue;
+    cursor: pointer;
+  }
+  .userSelector:focus {
+    outline-color: $lightGrayishBlue;
   }
 }

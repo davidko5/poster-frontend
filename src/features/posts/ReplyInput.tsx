@@ -2,28 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import styles from "./Posts.module.scss"
 import { useAppSelector } from "../../app/hooks"
 import { selectUserById } from "../users/usersSlice"
-
-function useOutsideAlerter(
-  ref: React.RefObject<HTMLTextAreaElement>,
-  onClickOutside?: () => void,
-) {
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    function handleClickOutside(event: any) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        onClickOutside && onClickOutside()
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [ref])
-}
+import { useOutsideAlerter } from "../../utils/useOutsideAlerter"
 
 export const ReplyInput = ({
   placeholder,

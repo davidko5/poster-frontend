@@ -3,8 +3,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from "@reduxjs/toolkit"
-import { AppDispatch, RootState } from "../../app/store"
-// import { useAppSelector } from "../../app/hooks"
+import { RootState } from "../../app/store"
 
 const postsAdapter = createEntityAdapter({
   selectId: (instance: any) => instance._id,
@@ -17,10 +16,14 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(fetchPosts.fulfilled, (state, action) => {
-      postsAdapter.upsertMany(state, action.payload.data)
-      state.status = "succeded"
-    })
+    builder
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        postsAdapter.upsertMany(state, action.payload.data)
+        state.status = "succeded"
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        postsAdapter.removeOne(state, action.payload.id)
+      })
   },
 })
 
