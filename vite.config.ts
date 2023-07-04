@@ -4,13 +4,13 @@ import react from "@vitejs/plugin-react"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "",
+  base: "/poster-frontend",
   publicDir: "public",
   server: {
     open: true,
   },
   build: {
-    outDir: "build",
+    outDir: "dist",
     sourcemap: true,
   },
   test: {

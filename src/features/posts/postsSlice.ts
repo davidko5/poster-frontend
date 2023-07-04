@@ -5,6 +5,14 @@ import {
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
 
+const isDev = import.meta.env.DEV
+const backendUrl = isDev
+  ? "http://localhost:3001"
+  : "https://poster-backend.onrender.com"
+
+// when local server is not running
+// const backendUrl = "https://poster-backend.onrender.com"
+
 const postsAdapter = createEntityAdapter({
   selectId: (instance: any) => instance._id,
   sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
@@ -28,7 +36,7 @@ const postsSlice = createSlice({
 })
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await fetch("http://localhost:3001/posts/list")
+  const response = await fetch(`${backendUrl}/posts/list`)
   return response.json()
 })
 
@@ -44,7 +52,7 @@ export const addPost = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`http://localhost:3001/posts/add`, {
+    const response = await fetch(`${backendUrl}/posts/add`, {
       method: "POST",
       body: JSON.stringify({
         content: content,
@@ -74,7 +82,7 @@ export const addComment = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`http://localhost:3001/posts/add/${postId}`, {
+    const response = await fetch(`${backendUrl}/posts/add/${postId}`, {
       method: "PUT",
       body: JSON.stringify({
         content: content,
@@ -109,7 +117,7 @@ export const addReply = createAsyncThunk(
     { dispatch },
   ) => {
     const response = await fetch(
-      `http://localhost:3001/posts/add/${postId}/${commentId}`,
+      `${backendUrl}/posts/add/${postId}/${commentId}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -142,7 +150,7 @@ export const editPost = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`http://localhost:3001/posts/edit/${postId}`, {
+    const response = await fetch(`${backendUrl}/posts/edit/${postId}`, {
       method: "PUT",
       body: JSON.stringify({
         ...(content && { content }),
@@ -174,7 +182,7 @@ export const editComment = createAsyncThunk(
     { dispatch },
   ) => {
     const response = await fetch(
-      `http://localhost:3001/posts/edit/${postId}/${commentId}`,
+      `${backendUrl}/posts/edit/${postId}/${commentId}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -210,7 +218,7 @@ export const editReply = createAsyncThunk(
     { dispatch },
   ) => {
     const response = await fetch(
-      `http://localhost:3001/posts/edit/${postId}/${commentId}/${replyId}`,
+      `${backendUrl}/posts/edit/${postId}/${commentId}/${replyId}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -237,15 +245,12 @@ export const deletePost = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(
-      `http://localhost:3001/posts/delete/${postId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+    const response = await fetch(`${backendUrl}/posts/delete/${postId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
       },
-    )
+    })
     dispatch(fetchPosts())
     return response.json()
   },
@@ -264,7 +269,7 @@ export const deleteComment = createAsyncThunk(
     { dispatch },
   ) => {
     const response = await fetch(
-      `http://localhost:3001/posts/delete/${postId}/${commentId}`,
+      `${backendUrl}/posts/delete/${postId}/${commentId}`,
       {
         method: "PUT",
         headers: {
@@ -292,7 +297,7 @@ export const deleteReply = createAsyncThunk(
     { dispatch },
   ) => {
     const response = await fetch(
-      `http://localhost:3001/posts/delete/${postId}/${commentId}/${replyId}`,
+      `${backendUrl}/posts/delete/${postId}/${commentId}/${replyId}`,
       {
         method: "PUT",
         headers: {
