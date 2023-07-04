@@ -7,6 +7,7 @@ import "./App.css"
 import { PostList } from "./features/posts/PostList"
 import { SinglePost } from "./features/posts/SinglePost"
 import { Navbar } from "./features/navbar/Navbar"
+import { UsersList } from "./features/users/UsersList"
 
 function App() {
   const dispatch = useAppDispatch()
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" Component={() => <Navigate to="/posts" />} />
         <Route path="/posts" Component={PostList} />
         <Route path="/posts/:id" Component={SinglePost} />
+        <Route path="/users" Component={UsersList} />
       </Routes>
     </BrowserRouter>
   )

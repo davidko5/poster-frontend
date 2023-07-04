@@ -5,6 +5,14 @@ import {
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
 
+const isDev = import.meta.env.DEV
+const backendUrl = isDev
+  ? "http://localhost:3001"
+  : "https://poster-backend.onrender.com"
+
+// when local server is not running
+// const backendUrl = "https://poster-backend.onrender.com"
+
 const usersAdapter = createEntityAdapter({
   selectId: (instance: any) => instance._id,
 })
@@ -31,7 +39,7 @@ const usersSlice = createSlice({
 })
 
 export const fetchUsers = createAsyncThunk("posts/fetchUsers", async () => {
-  const response = await fetch("http://localhost:3001/users/list")
+  const response = await fetch(`${backendUrl}/users/list`)
   return response.json()
 })
 
