@@ -23,6 +23,9 @@ import { EditInput } from "./EditInput"
 import { YouLabel } from "./YouLabel"
 import { Comment, Reply } from "../../utils/types"
 
+const isDev = import.meta.env.DEV
+const frontentBaseUrl = isDev ? "" : "/poster-frontend"
+
 export const SinglePost = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -422,7 +425,7 @@ export const SinglePost = () => {
                         postId: post._id,
                       }),
                     )
-                    navigate("/posts")
+                    navigate(`${frontentBaseUrl}/posts`)
                   }}
                   onEditClicked={() => {
                     setIsEditing(!isEditing)

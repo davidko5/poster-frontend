@@ -16,14 +16,19 @@ function App() {
     dispatch(fetchUsers())
   })
 
+  const frontentBaseUrl = "/poster-frontend"
+
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" Component={() => <Navigate to="/posts" />} />
-        <Route path="/posts" Component={PostList} />
-        <Route path="/posts/:id" Component={SinglePost} />
-        <Route path="/users" Component={UsersList} />
+        <Route
+          path={`${frontentBaseUrl}/`}
+          Component={() => <Navigate to={`${frontentBaseUrl}/posts`} />}
+        />
+        <Route path={`${frontentBaseUrl}/posts`} Component={PostList} />
+        <Route path={`${frontentBaseUrl}/posts/:id`} Component={SinglePost} />
+        <Route path={`${frontentBaseUrl}/users`} Component={UsersList} />
       </Routes>
     </BrowserRouter>
   )
