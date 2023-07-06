@@ -9,6 +9,8 @@ import {
 } from "../users/usersSlice"
 import { EntityId } from "@reduxjs/toolkit"
 
+const frontentBaseUrl = "/poster-frontend"
+
 export const Navbar = () => {
   const usersIds = useAppSelector(selectUsersIds)
   const dispatch = useAppDispatch()
@@ -31,10 +33,10 @@ export const Navbar = () => {
         </h2>
         <div className={styles.navBtnsAndSelectContainer}>
           <div>
-            <Link to={"/posts"}>Posts</Link>
+            <Link to={`${frontentBaseUrl}/posts`}>Posts</Link>
           </div>
           <div>
-            <Link to={"/users"}>Users</Link>
+            <Link to={`${frontentBaseUrl}/users`}>Users</Link>
           </div>
           <select
             onChange={(e) => dispatch(currentUserSet(e.target.value))}

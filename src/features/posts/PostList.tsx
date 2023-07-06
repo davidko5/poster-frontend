@@ -8,6 +8,8 @@ import { YouLabel } from "./YouLabel"
 import { TimeAgo } from "./TimeAgo"
 import { TextareaModal } from "./TextareaModal"
 
+const frontentBaseUrl = "/poster-frontend"
+
 export const PostList = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -24,7 +26,7 @@ export const PostList = () => {
     const post = useAppSelector((state) => selectPostById(state, postId))
     return (
       <div
-        onClick={() => navigate(`/posts/${postId}`)}
+        onClick={() => navigate(`${frontentBaseUrl}/posts/${postId}`)}
         className={styles.postPreviewContainer}
       >
         <div className={styles.postAuthorImgNameTimeAgo}>
@@ -46,17 +48,6 @@ export const PostList = () => {
     return <PostExcerpt key={postId} postId={postId} />
   })
 
-  // const ctrlEnterConfirmation = (
-  //   event: React.KeyboardEvent<HTMLTextAreaElement>,
-  //   textareaRef: React.RefObject<HTMLTextAreaElement>,
-  //   onConfirmation: () => void,
-  // ) => {
-  //   if (event.key === "Enter" && event.ctrlKey) {
-  //     onConfirmation && onConfirmation()
-  //     textareaRef.current && textareaRef.current.blur()
-  //   }
-  // }
-
   return (
     <div className={styles.postListPageContainer}>
       {orderedPostsIds.length ? (
@@ -74,34 +65,6 @@ export const PostList = () => {
           }}
           confirmBtnText="ADD POST"
         />
-        // <div className={styles.addPostFormContainer}>
-        //   <div ref={addPostModalContainerRef} className={styles.addPostForm}>
-        //     <textarea
-        //       value={addPostTextareaValue}
-        //       onChange={(e) => setAddPostTextareaValue(e.target.value)}
-        //       ref={addPostModalTextareaRef}
-        //       placeholder={"What is on your mind ?"}
-        //       onKeyDown={(event) =>
-        //         ctrlEnterConfirmation(event, addPostModalTextareaRef, () =>
-        //           dispatch(
-        //             addPost({
-        //               author: currentUser,
-        //               content: addPostTextareaValue,
-        //             }),
-        //           ),
-        //         )
-        //       }
-        //     ></textarea>
-        //     <div
-        //       className={styles.replyInputBtn}
-        //       onClick={() => {
-        //         onSendClick && onSendClick(textareaValue)
-        //       }}
-        //     >
-        //       <span>{btnText}</span>
-        //     </div>
-        //   </div>
-        // </div>
       )}
 
       <button
