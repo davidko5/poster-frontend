@@ -4,7 +4,7 @@ import { selectPostById, selectPostsIds, addPost } from "./postsSlice"
 import { EntityId } from "@reduxjs/toolkit"
 import styles from "./Posts.module.scss"
 import { useNavigate } from "react-router-dom"
-import { YouLabel } from "./YouLabel"
+import { YouLabel } from "../components/YouLabel"
 import { TimeAgo } from "./TimeAgo"
 import { TextareaModal } from "./TextareaModal"
 

@@ -22,8 +22,12 @@ $white: hsl(0, 0%, 100%);
     img {
         margin-right: 10px ;
     }
+    .userNameYouLabelContainer{
+      display: flex;
+    }
     .userName {
         margin-right: 10px;
+        font-weight: 500;
     }
     .userNameRegisterDate {
         .registered {

@@ -1,0 +1,98 @@
+$moderateBlue: hsl(238, 40%, 52%);
+$softRed: hsl(358, 79%, 66%);
+$lightGrayishBlue: hsl(239, 57%, 85%);
+$paleRed: hsl(357, 100%, 86%);
+$darkBlue: hsl(212, 24%, 26%);
+$grayishBlue: hsl(211, 10%, 45%);
+$lightGray: hsl(223, 19%, 93%);
+$veryLightGray: hsl(228, 33%, 97%);
+$white: hsl(0, 0%, 100%);
+
+.youLabelContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 20px;
+  font-size: 0.9rem;
+  background-color: $moderateBlue;
+  color: white;
+  border-radius: 3px;
+  span {
+    margin: 0 0 3px 0;
+  }
+}
+
+.deleteModalContainer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  backdrop-filter: blur(3px);
+  .deleteModal {
+    display: flex;
+    flex-direction: column;
+    margin: 30vh auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0px 0px 35px $grayishBlue;
+    max-width: 1000px;
+    width: 30%;
+    border-radius: 9px;
+    h2 {
+      margin: 0;
+      color: $darkBlue;
+      font-weight: 500;
+    }
+    p {
+      color: $grayishBlue;
+    }
+    .btnsContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .confirmationBtn,
+    .cancellationBtn {
+      margin: 10px 0 0 0;
+      width: 48%;
+      max-width: 180px;
+      height: 50px;
+      border: none;
+      border-radius: 9px;
+      background-color: $softRed;
+      color: $white;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .cancellationBtn {
+      background-color: $grayishBlue;
+    }
+    .confirmationBtn:hover {
+      cursor: pointer;
+      background-color: $paleRed;
+    }
+    .cancellationBtn:hover {
+      cursor: pointer;
+      background-color: hsl(211, 10%, 75%);
+      // color: $darkBlue;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .deleteModalContainer {
+    .deleteModal {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 530px) {
+}
+
+@media only screen and (max-width: 380px) {
+}

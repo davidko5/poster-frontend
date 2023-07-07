@@ -21,7 +21,7 @@ function App() {
   const frontentBaseUrl = "/poster-frontend"
 
   return (
-    <BrowserRouter basename={`${frontentBaseUrl}`}>
+    <BrowserRouter>
       <Navbar />
       <Routes>
         <Route

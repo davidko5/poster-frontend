@@ -20,11 +20,9 @@ import { PlusMinusInput } from "./PlusMinusInput"
 import { TimeAgo } from "./TimeAgo"
 import { ReplyInput } from "./ReplyInput"
 import { EditInput } from "./EditInput"
-import { YouLabel } from "./YouLabel"
+import { YouLabel } from "../components/YouLabel"
 import { Comment, Reply } from "../../utils/types"
-
-// const isDev = import.meta.env.DEV
-// const frontentBaseUrl = isDev ? "" : "/poster-frontend"
+import { DeleteModal } from "../components/DeleteModal"
 
 const frontentBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -38,6 +36,11 @@ export const SinglePost = () => {
   const authorIdToReplyTo = useRef("")
   const [isEditing, setIsEditing] = useState(false)
   const [textareaValue, setTextareaValue] = useState("")
+  const [deleteModalOpened, setDeleteModalOpened] = useState(false)
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  })
 
   const sendCommentTextAreaFocus = (ref: any) => {
     ref.current && ref.current.focus()
@@ -122,83 +125,132 @@ export const SinglePost = () => {
     )
     const [isEditing, setIsEditing] = useState(false)
     const [textareaValue, setTextareaValue] = useState(reply.content)
+    const [deleteModalOpened, setDeleteModalOpened] = useState(false)
 
     return (
-      <div className={styles.commentContainer}>
-        <div className={styles.commentBody}>
-          <PlusMinusInput
-            score={Number(reply.score)}
-            onPlusMinusClickHandler={(valueToIncrement) =>
-              editReplyDispatcher({
-                score: String(reply.score + valueToIncrement),
-                postId: post._id,
-                commentId: commentId,
-                replyId: reply._id,
-              })
-            }
-          />
-          <div className={styles.userLabelAndContentContainer}>
-            <div className={styles.postAuthorImgNameTimeAgo}>
-              <img
-                src={`${frontentBaseUrl}/images/avatars/${reply.author.image.webp}`}
-                alt="author"
+      <>
+        <div className={styles.commentContainer}>
+          <div className={styles.commentBody}>
+            {windowSize.width > 900 && (
+              <PlusMinusInput
+                score={Number(reply.score)}
+                onPlusMinusClickHandler={(valueToIncrement) =>
+                  editReplyDispatcher({
+                    score: String(reply.score + valueToIncrement),
+                    postId: post._id,
+                    commentId: commentId,
+                    replyId: reply._id,
+                  })
+                }
               />
-              <span className={styles.userName}>{reply.author.userName}</span>
-              <YouLabel entity={reply} currentUser={currentUser} />
-              <TimeAgo timestamp={reply.createdAt} />
-              {reply.author._id !== currentUser ? (
-                <ReplyBtn
-                  textareaToFocus={replyReplyInputTextareaRef}
-                  inputOpenSet={setReplyReplyInputOpen}
-                  authorId={reply.author._id}
+            )}
+            <div className={styles.userLabelAndContentContainer}>
+              <div className={styles.postAuthorImgNameTimeAgo}>
+                <img
+                  src={`${frontentBaseUrl}/images/avatars/${reply.author.image.webp}`}
+                  alt="author"
                 />
+                <span className={styles.userName}>{reply.author.userName}</span>
+                <YouLabel entity={reply} currentUser={currentUser} />
+                <TimeAgo timestamp={reply.createdAt} />
+                {window.innerWidth > 900 &&
+                  (reply.author._id !== currentUser ? (
+                    <ReplyBtn
+                      textareaToFocus={replyReplyInputTextareaRef}
+                      inputOpenSet={setReplyReplyInputOpen}
+                      authorId={reply.author._id}
+                    />
+                  ) : (
+                    <DeleteEditBtns
+                      onDeleteClicked={() => {
+                        setDeleteModalOpened(true)
+                      }}
+                      onEditClicked={() => {
+                        setIsEditing(!isEditing)
+                      }}
+                    />
+                  ))}
+              </div>
+              {!isEditing ? (
+                <div className={styles.contentContainer}>
+                  <p className={styles.content}>
+                    <span className={styles.replyAuthorReference}>
+                      @{repliedTo.userName} &nbsp;
+                    </span>
+                    {reply.content}
+                  </p>
+                </div>
               ) : (
-                <DeleteEditBtns
-                  onDeleteClicked={() => {
+                <EditInput
+                  entityValue={reply.content}
+                  textareaValue={textareaValue}
+                  setTextareaValue={setTextareaValue}
+                  setIsEditing={setIsEditing}
+                  onUpdate={() => {
                     dispatch(
-                      deleteReply({
+                      editReply({
+                        content: textareaValue,
                         postId: post._id,
                         commentId: commentId,
                         replyId: reply._id,
                       }),
                     )
                   }}
-                  onEditClicked={() => {
-                    setIsEditing(!isEditing)
-                  }}
                 />
               )}
-            </div>
-            {!isEditing ? (
-              <div className={styles.contentContainer}>
-                <p className={styles.content}>
-                  <span className={styles.replyAuthorReference}>
-                    @{repliedTo.userName} &nbsp;
-                  </span>
-                  {reply.content}
-                </p>
+              <div className={styles.plusMinusDeleteEditReplyReplacedContainer}>
+                {windowSize.width < 900 && (
+                  <PlusMinusInput
+                    score={Number(reply.score)}
+                    onPlusMinusClickHandler={(valueToIncrement) =>
+                      editReplyDispatcher({
+                        score: String(reply.score + valueToIncrement),
+                        postId: post._id,
+                        commentId: commentId,
+                        replyId: reply._id,
+                      })
+                    }
+                  />
+                )}
+                {window.innerWidth < 900 &&
+                  (reply.author._id !== currentUser ? (
+                    <ReplyBtn
+                      textareaToFocus={replyReplyInputTextareaRef}
+                      inputOpenSet={setReplyReplyInputOpen}
+                      authorId={reply.author._id}
+                    />
+                  ) : (
+                    <DeleteEditBtns
+                      onDeleteClicked={() => {
+                        setDeleteModalOpened(true)
+                      }}
+                      onEditClicked={() => {
+                        setIsEditing(!isEditing)
+                      }}
+                    />
+                  ))}
               </div>
-            ) : (
-              <EditInput
-                entityValue={reply.content}
-                textareaValue={textareaValue}
-                setTextareaValue={setTextareaValue}
-                setIsEditing={setIsEditing}
-                onUpdate={() => {
-                  dispatch(
-                    editReply({
-                      content: textareaValue,
-                      postId: post._id,
-                      commentId: commentId,
-                      replyId: reply._id,
-                    }),
-                  )
-                }}
-              />
-            )}
+            </div>
           </div>
         </div>
-      </div>
+        {deleteModalOpened && (
+          <DeleteModal
+            setModalOpened={setDeleteModalOpened}
+            onConfirmation={() => {
+              dispatch(
+                deleteReply({
+                  postId: post._id,
+                  commentId: commentId,
+                  replyId: reply._id,
+                }),
+              )
+            }}
+            titleText="Delete reply"
+            cancelBtnText="NO, CANCEL"
+            confirmBtnText="YES, DELETE"
+          />
+        )}
+      </>
     )
   }
 
@@ -211,92 +263,145 @@ export const SinglePost = () => {
     const replyReplyInputTextareaRef = useRef(null)
     const [isEditing, setIsEditing] = useState(false)
     const [textareaValue, setTextareaValue] = useState(comment.content)
+    const [deleteModalOpened, setDeleteModalOpened] = useState(false)
 
     return (
-      <div className={styles.commentContainer}>
-        <div className={styles.commentBody}>
-          <PlusMinusInput
-            score={Number(comment.score)}
-            onPlusMinusClickHandler={(valueToIncrement) =>
-              editCommentDispatcher({
-                score: String(comment.score + valueToIncrement),
-                postId: post._id,
-                commentId: comment._id,
-              })
-            }
-          />
-          <div className={styles.userLabelAndContentContainer}>
-            <div className={styles.postAuthorImgNameTimeAgo}>
-              <img
-                src={`${frontentBaseUrl}/images/avatars/${comment.author.image.webp}`}
-                alt="author"
+      <>
+        <div className={styles.commentContainer}>
+          <div className={styles.commentBody}>
+            {window.innerWidth > 900 && (
+              <PlusMinusInput
+                score={Number(comment.score)}
+                onPlusMinusClickHandler={(valueToIncrement) =>
+                  editCommentDispatcher({
+                    score: String(comment.score + valueToIncrement),
+                    postId: post._id,
+                    commentId: comment._id,
+                  })
+                }
               />
-              <span className={styles.userName}>{comment.author.userName}</span>
-              <YouLabel entity={comment} currentUser={currentUser} />
-              <TimeAgo timestamp={comment.createdAt} />
-              {comment.author._id !== currentUser ? (
-                <ReplyBtn
-                  textareaToFocus={commentReplyInputTextareaRef}
-                  inputOpenSet={setCommentReplyInputOpen}
-                  authorId={comment.author._id}
+            )}
+            <div className={styles.userLabelAndContentContainer}>
+              <div className={styles.postAuthorImgNameTimeAgo}>
+                <img
+                  src={`${frontentBaseUrl}/images/avatars/${comment.author.image.webp}`}
+                  alt="author"
                 />
+                <span className={styles.userName}>
+                  {comment.author.userName}
+                </span>
+                <YouLabel entity={comment} currentUser={currentUser} />
+                <TimeAgo timestamp={comment.createdAt} />
+                {window.innerWidth > 900 &&
+                  (comment.author._id !== currentUser ? (
+                    <ReplyBtn
+                      textareaToFocus={commentReplyInputTextareaRef}
+                      inputOpenSet={setCommentReplyInputOpen}
+                      authorId={comment.author._id}
+                    />
+                  ) : (
+                    <DeleteEditBtns
+                      onDeleteClicked={() => {
+                        setDeleteModalOpened(true)
+                      }}
+                      onEditClicked={() => {
+                        setIsEditing(!isEditing)
+                      }}
+                    />
+                  ))}
+              </div>
+              {!isEditing ? (
+                <div className={styles.contentContainer}>
+                  <p className={styles.content}>{comment.content}</p>
+                </div>
               ) : (
-                <DeleteEditBtns
-                  onDeleteClicked={() => {
+                <EditInput
+                  entityValue={comment.content}
+                  textareaValue={textareaValue}
+                  setTextareaValue={setTextareaValue}
+                  setIsEditing={setIsEditing}
+                  onUpdate={() => {
                     dispatch(
-                      deleteComment({
+                      editComment({
+                        content: textareaValue,
                         postId: post._id,
                         commentId: comment._id,
                       }),
                     )
                   }}
-                  onEditClicked={() => {
-                    setIsEditing(!isEditing)
-                  }}
                 />
               )}
-            </div>
-            {!isEditing ? (
-              <div className={styles.contentContainer}>
-                <p className={styles.content}>{comment.content}</p>
+              <div className={styles.plusMinusDeleteEditReplyReplacedContainer}>
+                {windowSize.width < 900 && (
+                  <PlusMinusInput
+                    score={Number(comment.score)}
+                    onPlusMinusClickHandler={(valueToIncrement) =>
+                      editCommentDispatcher({
+                        score: String(comment.score + valueToIncrement),
+                        postId: post._id,
+                        commentId: comment._id,
+                      })
+                    }
+                  />
+                )}
+                {window.innerWidth < 900 &&
+                  (comment.author._id !== currentUser ? (
+                    <ReplyBtn
+                      textareaToFocus={commentReplyInputTextareaRef}
+                      inputOpenSet={setCommentReplyInputOpen}
+                      authorId={comment.author._id}
+                    />
+                  ) : (
+                    <DeleteEditBtns
+                      onDeleteClicked={() => {
+                        setDeleteModalOpened(true)
+                      }}
+                      onEditClicked={() => {
+                        setIsEditing(!isEditing)
+                      }}
+                    />
+                  ))}
               </div>
-            ) : (
-              <EditInput
-                entityValue={comment.content}
-                textareaValue={textareaValue}
-                setTextareaValue={setTextareaValue}
-                setIsEditing={setIsEditing}
-                onUpdate={() => {
+            </div>
+          </div>
+          <div className={styles.repliesContainer}>
+            {comment.replies.map((reply: Reply) => {
+              return (
+                <SingleCommentReply
+                  key={reply._id}
+                  reply={reply}
+                  commentId={comment._id}
+                  setReplyReplyInputOpen={setReplyReplyInputOpen}
+                  replyReplyInputTextareaRef={replyReplyInputTextareaRef}
+                />
+              )
+            })}
+            {replyReplyInputOpen && (
+              <ReplyInput
+                placeholder="Add a reply"
+                textareaRef={replyReplyInputTextareaRef}
+                btnText="REPLY"
+                onClickOutside={() => setReplyReplyInputOpen(false)}
+                onSendClick={(content: string) =>
                   dispatch(
-                    editComment({
-                      content: textareaValue,
+                    addReply({
                       postId: post._id,
                       commentId: comment._id,
+                      content: content,
+                      author: currentUser,
+                      repliedTo: authorIdToReplyTo.current,
                     }),
                   )
-                }}
+                }
               />
             )}
           </div>
-        </div>
-        <div className={styles.repliesContainer}>
-          {comment.replies.map((reply: Reply) => {
-            return (
-              <SingleCommentReply
-                key={reply._id}
-                reply={reply}
-                commentId={comment._id}
-                setReplyReplyInputOpen={setReplyReplyInputOpen}
-                replyReplyInputTextareaRef={replyReplyInputTextareaRef}
-              />
-            )
-          })}
-          {replyReplyInputOpen && (
+          {commentReplyInputOpen && (
             <ReplyInput
               placeholder="Add a reply"
-              textareaRef={replyReplyInputTextareaRef}
+              textareaRef={commentReplyInputTextareaRef}
               btnText="REPLY"
-              onClickOutside={() => setReplyReplyInputOpen(false)}
+              onClickOutside={() => setCommentReplyInputOpen(false)}
               onSendClick={(content: string) =>
                 dispatch(
                   addReply({
@@ -311,36 +416,25 @@ export const SinglePost = () => {
             />
           )}
         </div>
-        {commentReplyInputOpen && (
-          <ReplyInput
-            placeholder="Add a reply"
-            textareaRef={commentReplyInputTextareaRef}
-            btnText="REPLY"
-            onClickOutside={() => setCommentReplyInputOpen(false)}
-            onSendClick={(content: string) =>
+        {deleteModalOpened && (
+          <DeleteModal
+            setModalOpened={setDeleteModalOpened}
+            onConfirmation={() => {
               dispatch(
-                addReply({
+                deleteComment({
                   postId: post._id,
                   commentId: comment._id,
-                  content: content,
-                  author: currentUser,
-                  repliedTo: authorIdToReplyTo.current,
                 }),
               )
-            }
+            }}
+            titleText="Delete comment"
+            cancelBtnText="NO, CANCEL"
+            confirmBtnText="YES, DELETE"
           />
         )}
-      </div>
+      </>
     )
   }
-
-  // const YouLabel = ({ entity }: { entity: { author: Author } }) => {
-  //   return entity.author._id === currentUser ? (
-  //     <div className={styles.youLabelContainer}>
-  //       <span className={styles.youLabel}>you</span>
-  //     </div>
-  //   ) : null
-  // }
 
   const ReplyBtn = ({
     inputOpenSet,
@@ -396,97 +490,154 @@ export const SinglePost = () => {
   useEffect(() => {
     if (postsFetchStatus === "idle") dispatch(fetchPosts())
     if (post && post.content) setTextareaValue(post.content)
+
+    const handleWindowResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+    }
+
+    window.addEventListener("resize", handleWindowResize)
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize)
+    }
   }, [post, dispatch, postsFetchStatus])
+
   if (post) {
     return (
-      <div className={styles.postContainer}>
-        <div className={styles.postBody}>
-          <PlusMinusInput
-            score={Number(post.score)}
-            onPlusMinusClickHandler={(valueToIncrement) =>
-              editPostDispatcher({
-                score: String(post.score + valueToIncrement),
-                postId: post._id,
-              })
-            }
-          />
-          <div className={styles.userLabelAndContentContainer}>
-            <div className={styles.postAuthorImgNameTimeAgo}>
-              <img
-                src={`${frontentBaseUrl}/images/avatars/${post.author.image.webp}`}
-                alt="author"
+      <>
+        <div className={styles.postContainer}>
+          <div className={styles.postBody}>
+            {windowSize.width > 900 && (
+              <PlusMinusInput
+                score={Number(post.score)}
+                onPlusMinusClickHandler={(valueToIncrement) =>
+                  editPostDispatcher({
+                    score: String(post.score + valueToIncrement),
+                    postId: post._id,
+                  })
+                }
               />
-              <span className={styles.userName}>{post.author.userName}</span>
-              <YouLabel entity={post} currentUser={currentUser} />
-              <TimeAgo timestamp={post.createdAt} />
-              {post.author._id === currentUser && (
-                <DeleteEditBtns
-                  onDeleteClicked={() => {
+            )}
+            <div className={styles.userLabelAndContentContainer}>
+              <div className={styles.postAuthorImgNameTimeAgo}>
+                <img
+                  src={`${frontentBaseUrl}/images/avatars/${post.author.image.webp}`}
+                  alt="author"
+                />
+                <span className={styles.userName}>{post.author.userName}</span>
+                <YouLabel entity={post} currentUser={currentUser} />
+                <TimeAgo timestamp={post.createdAt} />
+                {windowSize.width > 900 && post.author._id === currentUser && (
+                  <DeleteEditBtns
+                    onDeleteClicked={() => setDeleteModalOpened(true)}
+                    onEditClicked={() => {
+                      setIsEditing(!isEditing)
+                    }}
+                  />
+                )}
+                {windowSize.width > 900 && (
+                  <ReplyBtn
+                    textareaToFocus={postReplyInputTextareaRef}
+                    style={
+                      post.author._id === currentUser
+                        ? { marginLeft: "10px" }
+                        : { marginLeft: "auto" }
+                    }
+                  />
+                )}
+              </div>
+              {!isEditing ? (
+                <>
+                  <p className={styles.content}>{post.content}</p>
+                </>
+              ) : (
+                <EditInput
+                  entityValue={post.content}
+                  textareaValue={textareaValue}
+                  setTextareaValue={setTextareaValue}
+                  setIsEditing={setIsEditing}
+                  onUpdate={() => {
                     dispatch(
-                      deletePost({
+                      editPost({
+                        content: textareaValue,
                         postId: post._id,
                       }),
                     )
-                    navigate(`${frontentBaseUrl}/posts`)
-                  }}
-                  onEditClicked={() => {
-                    setIsEditing(!isEditing)
+                    setIsEditing(false)
                   }}
                 />
               )}
-              <ReplyBtn
-                textareaToFocus={postReplyInputTextareaRef}
-                style={
-                  post.author._id === currentUser
-                    ? { marginLeft: "10px" }
-                    : { marginLeft: "auto" }
-                }
-              />
+              <div className={styles.plusMinusDeleteEditReplyReplacedContainer}>
+                {windowSize.width < 900 && (
+                  <PlusMinusInput
+                    score={Number(post.score)}
+                    onPlusMinusClickHandler={(valueToIncrement) =>
+                      editPostDispatcher({
+                        score: String(post.score + valueToIncrement),
+                        postId: post._id,
+                      })
+                    }
+                  />
+                )}
+                {windowSize.width < 900 && post.author._id === currentUser && (
+                  <DeleteEditBtns
+                    onDeleteClicked={() => setDeleteModalOpened(true)}
+                    onEditClicked={() => {
+                      setIsEditing(!isEditing)
+                    }}
+                  />
+                )}
+                {windowSize.width < 900 && (
+                  <ReplyBtn
+                    textareaToFocus={postReplyInputTextareaRef}
+                    style={
+                      post.author._id === currentUser
+                        ? { marginLeft: "10px" }
+                        : { marginLeft: "auto" }
+                    }
+                  />
+                )}
+              </div>
             </div>
-            {!isEditing ? (
-              <>
-                <p className={styles.content}>{post.content}</p>
-              </>
-            ) : (
-              <EditInput
-                entityValue={post.content}
-                textareaValue={textareaValue}
-                setTextareaValue={setTextareaValue}
-                setIsEditing={setIsEditing}
-                onUpdate={() => {
-                  dispatch(
-                    editPost({
-                      content: textareaValue,
-                      postId: post._id,
-                    }),
-                  )
-                  setIsEditing(false)
-                }}
-              />
-            )}
           </div>
-        </div>
 
-        <div className={styles.commentsContainer}>
-          {post.comments.map((comment: Comment) => (
-            <SingleComment key={comment._id} comment={comment} />
-          ))}
+          <div className={styles.commentsContainer}>
+            {post.comments.map((comment: Comment) => (
+              <SingleComment key={comment._id} comment={comment} />
+            ))}
+          </div>
+          <ReplyInput
+            placeholder="Add a comment"
+            textareaRef={postReplyInputTextareaRef}
+            btnText="SEND"
+            onSendClick={(content: string) =>
+              dispatch(
+                addComment({
+                  postId: post._id,
+                  content: content,
+                  author: currentUser,
+                }),
+              )
+            }
+          />
         </div>
-        <ReplyInput
-          placeholder="Add a comment"
-          textareaRef={postReplyInputTextareaRef}
-          btnText="SEND"
-          onSendClick={(content: string) =>
-            dispatch(
-              addComment({
-                postId: post._id,
-                content: content,
-                author: currentUser,
-              }),
-            )
-          }
-        />
-      </div>
+        {deleteModalOpened && (
+          <DeleteModal
+            setModalOpened={setDeleteModalOpened}
+            onConfirmation={() => {
+              dispatch(
+                deletePost({
+                  postId: post._id,
+                }),
+              )
+              navigate(`${frontentBaseUrl}/posts`)
+            }}
+            titleText="Delete comment"
+            cancelBtnText="NO, CANCEL"
+            confirmBtnText="YES, DELETE"
+          />
+        )}
+      </>
     )
   } else return <p>Post not found</p>
 }
