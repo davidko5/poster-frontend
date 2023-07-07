@@ -3,6 +3,8 @@ import { useAppSelector } from "../../app/hooks"
 import { selectUsersIds, selectUserById } from "./usersSlice"
 import { TimeAgo } from "../posts/TimeAgo"
 
+const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+
 export const UsersList = () => {
   const usersIds = useAppSelector(selectUsersIds)
 
@@ -10,7 +12,10 @@ export const UsersList = () => {
     const user = useAppSelector((state) => selectUserById(state, userId))
     return (
       <div className={styles.userProfileExcerpt}>
-        <img src={`/images/avatars/${user.image.png}`} alt="profile pic" />
+        <img
+          src={`${frontentBaseUrl}/images/avatars/${user.image.png}`}
+          alt="profile pic"
+        />
 
         <div className={styles.userNameRegisterDate}>
           <div className={styles.userName}>{user.userName}</div>

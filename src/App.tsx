@@ -9,6 +9,8 @@ import { SinglePost } from "./features/posts/SinglePost"
 import { Navbar } from "./features/navbar/Navbar"
 import { UsersList } from "./features/users/UsersList"
 
+const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+
 function App() {
   const dispatch = useAppDispatch()
   useEffect(() => {
@@ -19,7 +21,7 @@ function App() {
   const frontentBaseUrl = "/poster-frontend"
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={`${frontentBaseUrl}`}>
       <Navbar />
       <Routes>
         <Route
