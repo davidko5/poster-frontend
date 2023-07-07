@@ -4,6 +4,8 @@ import { useAppSelector } from "../../app/hooks"
 import { selectUserById } from "../users/usersSlice"
 import { useOutsideAlerter } from "../../utils/useOutsideAlerter"
 
+const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+
 export const ReplyInput = ({
   placeholder,
   textareaRef,
@@ -38,7 +40,10 @@ export const ReplyInput = ({
 
   return (
     <div className={styles.replyInputContainer} ref={componentContainerRef}>
-      <img src={`/images/avatars/${currentUser.image.png}`} alt="author" />
+      <img
+        src={`${frontentBaseUrl}/images/avatars/${currentUser.image.png}`}
+        alt="author"
+      />
       <textarea
         value={textareaValue}
         onChange={(e) => setTextareaValue(e.target.value)}

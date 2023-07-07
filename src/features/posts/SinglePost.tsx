@@ -23,8 +23,10 @@ import { EditInput } from "./EditInput"
 import { YouLabel } from "./YouLabel"
 import { Comment, Reply } from "../../utils/types"
 
-const isDev = import.meta.env.DEV
-const frontentBaseUrl = isDev ? "" : "/poster-frontend"
+// const isDev = import.meta.env.DEV
+// const frontentBaseUrl = isDev ? "" : "/poster-frontend"
+
+const frontentBaseUrl = import.meta.env.VITE_BASE_URL
 
 export const SinglePost = () => {
   const dispatch = useAppDispatch()
@@ -138,7 +140,7 @@ export const SinglePost = () => {
           <div className={styles.userLabelAndContentContainer}>
             <div className={styles.postAuthorImgNameTimeAgo}>
               <img
-                src={`/images/avatars/${reply.author.image.webp}`}
+                src={`${frontentBaseUrl}/images/avatars/${reply.author.image.webp}`}
                 alt="author"
               />
               <span className={styles.userName}>{reply.author.userName}</span>
@@ -226,7 +228,7 @@ export const SinglePost = () => {
           <div className={styles.userLabelAndContentContainer}>
             <div className={styles.postAuthorImgNameTimeAgo}>
               <img
-                src={`/images/avatars/${comment.author.image.webp}`}
+                src={`${frontentBaseUrl}/images/avatars/${comment.author.image.webp}`}
                 alt="author"
               />
               <span className={styles.userName}>{comment.author.userName}</span>
@@ -411,7 +413,7 @@ export const SinglePost = () => {
           <div className={styles.userLabelAndContentContainer}>
             <div className={styles.postAuthorImgNameTimeAgo}>
               <img
-                src={`/images/avatars/${post.author.image.webp}`}
+                src={`${frontentBaseUrl}/images/avatars/${post.author.image.webp}`}
                 alt="author"
               />
               <span className={styles.userName}>{post.author.userName}</span>

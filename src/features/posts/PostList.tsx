@@ -8,7 +8,7 @@ import { YouLabel } from "./YouLabel"
 import { TimeAgo } from "./TimeAgo"
 import { TextareaModal } from "./TextareaModal"
 
-const frontentBaseUrl = "/poster-frontend"
+const frontentBaseUrl = import.meta.env.VITE_BASE_URL
 
 export const PostList = () => {
   const navigate = useNavigate()
@@ -30,7 +30,10 @@ export const PostList = () => {
         className={styles.postPreviewContainer}
       >
         <div className={styles.postAuthorImgNameTimeAgo}>
-          <img src={`/images/avatars/${post.author.image.webp}`} alt="author" />
+          <img
+            src={`${frontentBaseUrl}/images/avatars/${post.author.image.webp}`}
+            alt="author"
+          />
           <span className={styles.userName}>{post.author.userName}</span>
           <YouLabel entity={post} currentUser={currentUser} />
           <TimeAgo timestamp={post.createdAt} />
@@ -71,7 +74,7 @@ export const PostList = () => {
         onClick={() => setAddPostModalOpen(true)}
         className={styles.addPostBtn}
       >
-        <img src="/images/icon-add.svg" alt="add" />
+        <img src={`${frontentBaseUrl}/images/icon-add.svg`} alt="add" />
         add
       </button>
     </div>
