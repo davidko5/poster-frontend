@@ -25,6 +25,10 @@ export const ReplyInput = ({
     selectUserById(state, currentUserId),
   )
   const componentContainerRef = useRef(null)
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  })
 
   const ctrlEnterConfirmation = (
     event: React.KeyboardEvent<HTMLTextAreaElement>,
@@ -38,12 +42,27 @@ export const ReplyInput = ({
 
   useOutsideAlerter(componentContainerRef, onClickOutside)
 
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+    }
+
+    window.addEventListener("resize", handleWindowResize)
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize)
+    }
+  }, [])
+  console.log(windowSize.width)
+
   return (
     <div className={styles.replyInputContainer} ref={componentContainerRef}>
-      <img
-        src={`${frontentBaseUrl}/images/avatars/${currentUser.image.png}`}
-        alt="author"
-      />
+      {windowSize.width > 600 && (
+        <img
+          src={`${frontentBaseUrl}/images/avatars/${currentUser.image.png}`}
+          alt="author"
+        />
+      )}
       <textarea
         value={textareaValue}
         onChange={(e) => setTextareaValue(e.target.value)}
@@ -51,14 +70,32 @@ export const ReplyInput = ({
         placeholder={placeholder}
         onKeyDown={ctrlEnterConfirmation}
       ></textarea>
-      <div
-        className={styles.replyInputBtn}
-        onClick={() => {
-          onSendClick && onSendClick(textareaValue)
-        }}
-      >
-        <span>{btnText}</span>
-      </div>
+      {windowSize.width > 600 && (
+        <div
+          className={styles.replyInputBtn}
+          onClick={() => {
+            onSendClick && onSendClick(textareaValue)
+          }}
+        >
+          <span>{btnText}</span>
+        </div>
+      )}
+      {windowSize.width < 600 && (
+        <div className={styles.imageConfirmBtn}>
+          <img
+            src={`${frontentBaseUrl}/images/avatars/${currentUser.image.png}`}
+            alt="author"
+          />
+          <div
+            className={styles.replyInputBtn}
+            onClick={() => {
+              onSendClick && onSendClick(textareaValue)
+            }}
+          >
+            <span>{btnText}</span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

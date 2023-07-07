@@ -1,4 +1,4 @@
-import styles from "./Posts.module.scss"
+import styles from "./Components.module.scss"
 import { Author } from "../../utils/types"
 
 export const YouLabel = ({
