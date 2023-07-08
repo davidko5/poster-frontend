@@ -377,6 +377,7 @@ $white: hsl(0, 0%, 100%);
   width: 100vw;
   height: 100vh;
   z-index: 1;
+  -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
 }
 
@@ -448,7 +449,7 @@ textarea {
 
 @media only screen and (max-width: 600px) {
   .postListPageContainer {
-    padding: 20px 50px 50px;
+    padding: 20px 10px 50px;
   }
   .postPreviewContainer{
     margin: 0px 0px 10px;
@@ -482,8 +483,5 @@ textarea {
 @media only screen and (max-width: 380px) {
   .postPreviewContainer {
     width: 100%;
-  }
-  .postListPageContainer {
-    padding: 100px 10px;
   }
 }
