@@ -8,10 +8,10 @@ import { RootState } from "../../app/store"
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
   ? "http://localhost:3001"
-  : "https://davidko5-express.onrender.com/"
+  : "https://davidko5-express.onrender.com"
 
 // when local server is not running
-// const backendUrl = "https://davidko5-express.onrender.com/"
+// const backendUrl = "https://davidko5-express.onrender.com"
 
 const postsAdapter = createEntityAdapter({
   selectId: (instance: any) => instance._id,
