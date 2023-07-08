@@ -53,7 +53,6 @@ export const ReplyInput = ({
       window.removeEventListener("resize", handleWindowResize)
     }
   }, [])
-  console.log(windowSize.width)
 
   return (
     <div className={styles.replyInputContainer} ref={componentContainerRef}>
