@@ -21,10 +21,31 @@ import { TimeAgo } from "./TimeAgo"
 import { ReplyInput } from "./ReplyInput"
 import { EditInput } from "./EditInput"
 import { YouLabel } from "../components/YouLabel"
-import { Comment, Reply } from "../../utils/types"
 import { DeleteModal } from "../components/DeleteModal"
+import { Comment, Reply } from "../../types"
 
-const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+
+const DeleteEditBtns = ({
+  onDeleteClicked,
+  onEditClicked,
+}: {
+  onDeleteClicked: () => void
+  onEditClicked: () => void
+}) => {
+  return (
+    <div className={styles.deleteEditBtnsContainer}>
+      <div className={styles.deleteBtn} onClick={onDeleteClicked}>
+        <span className={styles.deleteIcon}></span>
+        <span>Delete</span>
+      </div>
+      <div className={styles.editBtn} onClick={onEditClicked}>
+        <span className={styles.editIcon}></span>
+        <span>Edit</span>
+      </div>
+    </div>
+  )
+}
 
 export const SinglePost = () => {
   const dispatch = useAppDispatch()
@@ -67,47 +88,66 @@ export const SinglePost = () => {
   const editCommentDispatcher = ({
     content,
     score,
-    postId,
     commentId,
   }: {
     content?: string
     score?: string
-    postId: string
     commentId: string
   }) => {
-    dispatch(
-      editComment({
-        content,
-        score,
-        postId,
-        commentId,
-      }),
-    )
+    if (id) {
+      dispatch(
+        editComment({
+          content,
+          score,
+          postId: id,
+          commentId,
+        }),
+      )
+    }
   }
 
   const editReplyDispatcher = ({
     content,
     score,
-    postId,
     commentId,
     replyId,
   }: {
     content?: string
     score?: string
-    postId: string
     commentId: string
     replyId: string
   }) => {
-    dispatch(
-      editReply({
-        content,
-        score,
-        postId,
-        commentId,
-        replyId,
-      }),
-    )
+    if (id) {
+      dispatch(
+        editReply({
+          content,
+          score,
+          postId: id,
+          commentId,
+          replyId,
+        }),
+      )
+    }
   }
+
+  const postsFetchStatus = useAppSelector((state) => state.posts.status)
+
+  useEffect(() => {
+    if (postsFetchStatus === "idle") dispatch(fetchPosts())
+    if (post && post.content) setTextareaValue(post.content)
+
+    const handleWindowResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+    }
+
+    window.addEventListener("resize", handleWindowResize)
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize)
+    }
+  }, [post, dispatch, postsFetchStatus])
+
+  if (!id) return null
 
   const SingleCommentReply = ({
     reply,
@@ -137,7 +177,6 @@ export const SinglePost = () => {
                 onPlusMinusClickHandler={(valueToIncrement) =>
                   editReplyDispatcher({
                     score: String(reply.score + valueToIncrement),
-                    postId: post._id,
                     commentId: commentId,
                     replyId: reply._id,
                   })
@@ -147,7 +186,7 @@ export const SinglePost = () => {
             <div className={styles.userLabelAndContentContainer}>
               <div className={styles.postAuthorImgNameTimeAgo}>
                 <img
-                  src={`${frontentBaseUrl}/images/avatars/${reply.author.image.webp}`}
+                  src={`${frontendBaseUrl}/images/avatars/${reply.author.image.webp}`}
                   alt="author"
                 />
                 <span className={styles.userName}>{reply.author.userName}</span>
@@ -175,7 +214,7 @@ export const SinglePost = () => {
                 <div className={styles.contentContainer}>
                   <p className={styles.content}>
                     <span className={styles.replyAuthorReference}>
-                      @{repliedTo.userName} &nbsp;
+                      @{repliedTo?.userName} &nbsp;
                     </span>
                     {reply.content}
                   </p>
@@ -190,7 +229,7 @@ export const SinglePost = () => {
                     dispatch(
                       editReply({
                         content: textareaValue,
-                        postId: post._id,
+                        postId: id,
                         commentId: commentId,
                         replyId: reply._id,
                       }),
@@ -205,7 +244,6 @@ export const SinglePost = () => {
                     onPlusMinusClickHandler={(valueToIncrement) =>
                       editReplyDispatcher({
                         score: String(reply.score + valueToIncrement),
-                        postId: post._id,
                         commentId: commentId,
                         replyId: reply._id,
                       })
@@ -237,13 +275,15 @@ export const SinglePost = () => {
           <DeleteModal
             setModalOpened={setDeleteModalOpened}
             onConfirmation={() => {
-              dispatch(
-                deleteReply({
-                  postId: post._id,
-                  commentId: commentId,
-                  replyId: reply._id,
-                }),
-              )
+              if (id) {
+                dispatch(
+                  deleteReply({
+                    postId: id,
+                    commentId: commentId,
+                    replyId: reply._id,
+                  }),
+                )
+              }
             }}
             titleText="Delete reply"
             cancelBtnText="NO, CANCEL"
@@ -275,7 +315,6 @@ export const SinglePost = () => {
                 onPlusMinusClickHandler={(valueToIncrement) =>
                   editCommentDispatcher({
                     score: String(comment.score + valueToIncrement),
-                    postId: post._id,
                     commentId: comment._id,
                   })
                 }
@@ -284,7 +323,7 @@ export const SinglePost = () => {
             <div className={styles.userLabelAndContentContainer}>
               <div className={styles.postAuthorImgNameTimeAgo}>
                 <img
-                  src={`${frontentBaseUrl}/images/avatars/${comment.author.image.webp}`}
+                  src={`${frontendBaseUrl}/images/avatars/${comment.author.image.webp}`}
                   alt="author"
                 />
                 <span className={styles.userName}>
@@ -324,7 +363,7 @@ export const SinglePost = () => {
                     dispatch(
                       editComment({
                         content: textareaValue,
-                        postId: post._id,
+                        postId: id,
                         commentId: comment._id,
                       }),
                     )
@@ -338,7 +377,6 @@ export const SinglePost = () => {
                     onPlusMinusClickHandler={(valueToIncrement) =>
                       editCommentDispatcher({
                         score: String(comment.score + valueToIncrement),
-                        postId: post._id,
                         commentId: comment._id,
                       })
                     }
@@ -385,7 +423,7 @@ export const SinglePost = () => {
                 onSendClick={(content: string) =>
                   dispatch(
                     addReply({
-                      postId: post._id,
+                      postId: id,
                       commentId: comment._id,
                       content: content,
                       author: currentUser,
@@ -405,7 +443,7 @@ export const SinglePost = () => {
               onSendClick={(content: string) =>
                 dispatch(
                   addReply({
-                    postId: post._id,
+                    postId: id,
                     commentId: comment._id,
                     content: content,
                     author: currentUser,
@@ -422,7 +460,7 @@ export const SinglePost = () => {
             onConfirmation={() => {
               dispatch(
                 deleteComment({
-                  postId: post._id,
+                  postId: id,
                   commentId: comment._id,
                 }),
               )
@@ -465,43 +503,6 @@ export const SinglePost = () => {
     )
   }
 
-  const DeleteEditBtns = ({
-    onDeleteClicked,
-    onEditClicked,
-  }: {
-    onDeleteClicked: () => void
-    onEditClicked: () => void
-  }) => {
-    return (
-      <div className={styles.deleteEditBtnsContainer}>
-        <div className={styles.deleteBtn} onClick={onDeleteClicked}>
-          <span className={styles.deleteIcon}></span>
-          <span>Delete</span>
-        </div>
-        <div className={styles.editBtn} onClick={onEditClicked}>
-          <span className={styles.editIcon}></span>
-          <span>Edit</span>
-        </div>
-      </div>
-    )
-  }
-
-  const postsFetchStatus = useAppSelector((state) => state.posts.status)
-  useEffect(() => {
-    if (postsFetchStatus === "idle") dispatch(fetchPosts())
-    if (post && post.content) setTextareaValue(post.content)
-
-    const handleWindowResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
-    }
-
-    window.addEventListener("resize", handleWindowResize)
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize)
-    }
-  }, [post, dispatch, postsFetchStatus])
-
   if (post) {
     return (
       <>
@@ -521,7 +522,7 @@ export const SinglePost = () => {
             <div className={styles.userLabelAndContentContainer}>
               <div className={styles.postAuthorImgNameTimeAgo}>
                 <img
-                  src={`${frontentBaseUrl}/images/avatars/${post.author.image.webp}`}
+                  src={`${frontendBaseUrl}/images/avatars/${post.author.image.webp}`}
                   alt="author"
                 />
                 <span className={styles.userName}>{post.author.userName}</span>
@@ -602,8 +603,8 @@ export const SinglePost = () => {
           </div>
 
           <div className={styles.commentsContainer}>
-            {post.comments.map((comment: Comment) => (
-              <SingleComment key={comment._id} comment={comment} />
+            {post.comments.map((comment) => (
+              <SingleComment key={comment._id} comment={comment as Comment} />
             ))}
           </div>
           <ReplyInput
@@ -630,7 +631,7 @@ export const SinglePost = () => {
                   postId: post._id,
                 }),
               )
-              navigate(`${frontentBaseUrl}/posts`)
+              navigate(`${frontendBaseUrl}/posts`)
             }}
             titleText="Delete comment"
             cancelBtnText="NO, CANCEL"

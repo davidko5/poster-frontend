@@ -4,7 +4,7 @@ import { selectUsersIds, selectUserById } from "./usersSlice"
 import { TimeAgo } from "../posts/TimeAgo"
 import { YouLabel } from "../components/YouLabel"
 
-const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
 export const UsersList = () => {
   const usersIds = useAppSelector(selectUsersIds)
@@ -15,7 +15,7 @@ export const UsersList = () => {
     return (
       <div className={styles.userProfileExcerpt}>
         <img
-          src={`${frontentBaseUrl}/images/avatars/${user.image.png}`}
+          src={`${frontendBaseUrl}/images/avatars/${user.image.png}`}
           alt="profile pic"
         />
 

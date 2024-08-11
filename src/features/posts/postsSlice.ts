@@ -4,6 +4,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
+import { Comment, User } from "../../types"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
@@ -13,11 +14,31 @@ const backendUrl = isDev
 // when local server is not running
 // const backendUrl = "https://davidko5-express.onrender.com"
 
-const postsAdapter = createEntityAdapter({
-  selectId: (instance: any) => instance._id,
+interface PostsState {
+  status: "idle" | "succeeded"
+  ids: Array<string>
+  entities: Record<string, Post>
+}
+
+interface Post {
+  _id: string
+  createdAt: string
+  updatedAt: string
+  content: string
+  author: User
+  score: number
+  comments: Array<Comment>
+}
+
+const postsAdapter = createEntityAdapter<Post>({
+  selectId: (instance) => instance._id,
   sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 })
-const initialState = postsAdapter.getInitialState({ status: "idle" })
+const initialState = postsAdapter.getInitialState<PostsState>({
+  status: "idle",
+  ids: [],
+  entities: {},
+})
 
 const postsSlice = createSlice({
   name: "posts",
@@ -27,7 +48,7 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
         postsAdapter.upsertMany(state, action.payload.data)
-        state.status = "succeded"
+        state.status = "succeeded"
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         postsAdapter.removeOne(state, action.payload.id)

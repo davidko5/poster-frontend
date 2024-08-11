@@ -3,26 +3,28 @@ import styles from "./Posts.module.scss"
 export const PlusMinusInput = ({
   score,
   onPlusMinusClickHandler,
-}: // onMinusClickHandler,
-{
+}: {
   score: number
   onPlusMinusClickHandler: (valueToIncrement: number) => void
-  // onMinusClickHandler: () => void
 }) => {
   return (
     <div className={styles.plusMinusInputContainer}>
       <div
+        data-testid="plusContainer"
+        className={styles.iconContainer}
         onClick={() => onPlusMinusClickHandler(1)}
-        className={styles.iconContainer}
       >
-        <div className={styles.iconPlus}></div>
+        <div data-testid="plusIcon" className={styles.iconPlus} />
       </div>
-      <div className={styles.plusMinusInputScore}>{score}</div>
+      <div data-testid="scoreContainer" className={styles.plusMinusInputScore}>
+        {score}
+      </div>
       <div
-        onClick={() => onPlusMinusClickHandler(-1)}
+        data-testid="minusContainer"
         className={styles.iconContainer}
+        onClick={() => onPlusMinusClickHandler(-1)}
       >
-        <div className={styles.iconMinus}></div>
+        <div className={styles.iconMinus} />
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ import {
 } from "../users/usersSlice"
 import { EntityId } from "@reduxjs/toolkit"
 
-const frontentBaseUrl = "/poster-frontend"
+const frontendBaseUrl = "/poster-frontend"
 
 export const Navbar = () => {
   const usersIds = useAppSelector(selectUsersIds)
@@ -17,7 +17,7 @@ export const Navbar = () => {
 
   const UserSelectOption = ({ userId }: { userId: EntityId }) => {
     const user = useAppSelector((state) => selectUserById(state, userId))
-    return <option value={userId}>{user.userName}</option>
+    return <option value={userId}>{user?.userName}</option>
   }
 
   useEffect(() => {
@@ -33,10 +33,10 @@ export const Navbar = () => {
         </h2>
         <div className={styles.navBtnsAndSelectContainer}>
           <div>
-            <Link to={`${frontentBaseUrl}/posts`}>Posts</Link>
+            <Link to={`${frontendBaseUrl}/posts`}>Posts</Link>
           </div>
           <div>
-            <Link to={`${frontentBaseUrl}/users`}>Users</Link>
+            <Link to={`${frontendBaseUrl}/users`}>Users</Link>
           </div>
           <select
             onChange={(e) => dispatch(currentUserSet(e.target.value))}
