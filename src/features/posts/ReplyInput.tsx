@@ -4,21 +4,20 @@ import { useAppSelector } from "../../app/hooks"
 import { selectUserById } from "../users/usersSlice"
 import { useOutsideAlerter } from "../../utils/useOutsideAlerter"
 
-const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
-export const ReplyInput = ({
-  placeholder,
-  textareaRef,
-  btnText,
-  onClickOutside,
-  onSendClick,
-}: {
+interface ReplyInputProps {
   placeholder: string
   textareaRef: React.RefObject<HTMLTextAreaElement>
   btnText: string
   onClickOutside?: () => void
   onSendClick?: (content: string) => void
-}) => {
+}
+
+export const ReplyInput = (props: ReplyInputProps) => {
+  const { placeholder, textareaRef, btnText, onClickOutside, onSendClick } =
+    props
+
   const [textareaValue, setTextareaValue] = useState("")
   const currentUserId = useAppSelector((state) => state.users.currentUser)
   const currentUser = useAppSelector((state) =>
@@ -58,11 +57,12 @@ export const ReplyInput = ({
     <div className={styles.replyInputContainer} ref={componentContainerRef}>
       {windowSize.width > 600 && (
         <img
-          src={`${frontentBaseUrl}/images/avatars/${currentUser.image.png}`}
+          src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
           alt="author"
         />
       )}
       <textarea
+        data-testid="replyInputTextarea"
         value={textareaValue}
         onChange={(e) => setTextareaValue(e.target.value)}
         ref={textareaRef}
@@ -82,7 +82,7 @@ export const ReplyInput = ({
       {windowSize.width < 600 && (
         <div className={styles.imageConfirmBtn}>
           <img
-            src={`${frontentBaseUrl}/images/avatars/${currentUser.image.png}`}
+            src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
             alt="author"
           />
           <div

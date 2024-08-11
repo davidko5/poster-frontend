@@ -4,6 +4,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
+import { User } from "../../types"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
@@ -13,7 +14,7 @@ const backendUrl = isDev
 // when local server is not running
 // const backendUrl = "https://davidko5-express.onrender.com/"
 
-const usersAdapter = createEntityAdapter({
+const usersAdapter = createEntityAdapter<User>({
   selectId: (instance: any) => instance._id,
 })
 
@@ -33,7 +34,7 @@ const usersSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       usersAdapter.upsertMany(state, action.payload.data)
-      state.status = "succeded"
+      state.status = "succeeded"
     })
   },
 })

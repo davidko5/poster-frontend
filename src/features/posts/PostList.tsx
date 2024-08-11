@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom"
 import { YouLabel } from "../components/YouLabel"
 import { TimeAgo } from "./TimeAgo"
 import { TextareaModal } from "./TextareaModal"
+import { PostExcerpt } from "./PostExcerpt"
 
-const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
 export const PostList = () => {
   const navigate = useNavigate()
@@ -19,36 +20,10 @@ export const PostList = () => {
 
   const [addPostModalOpen, setAddPostModalOpen] = useState(false)
   const addPostModalContainerRef = useRef(null)
-  const addPostModalTextareaRef = useRef<HTMLTextAreaElement>(null)
-  const [addPostTextareaValue, setAddPostTextareaValue] = useState("")
-
-  const PostExcerpt = ({ postId }: { postId: EntityId }) => {
-    const post = useAppSelector((state) => selectPostById(state, postId))
-    return (
-      <div
-        onClick={() => navigate(`${frontentBaseUrl}/posts/${postId}`)}
-        className={styles.postPreviewContainer}
-      >
-        <div className={styles.postAuthorImgNameTimeAgo}>
-          <img
-            src={`${frontentBaseUrl}/images/avatars/${post.author.image.webp}`}
-            alt="author"
-          />
-          <span className={styles.userName}>{post.author.userName}</span>
-          <YouLabel entity={post} currentUser={currentUser} />
-          <TimeAgo timestamp={post.createdAt} />
-        </div>
-        <p className={styles.contentPreview}>
-          {post.content.length < 80
-            ? post.content
-            : post.content.slice(0, 70) + "..."}
-        </p>
-      </div>
-    )
-  }
-
   const layedPosts = orderedPostsIds.map((postId) => {
-    return <PostExcerpt key={postId} postId={postId} />
+    return (
+      <PostExcerpt key={postId} postId={postId} currentUser={currentUser} />
+    )
   })
 
   return (
@@ -74,7 +49,7 @@ export const PostList = () => {
         onClick={() => setAddPostModalOpen(true)}
         className={styles.addPostBtn}
       >
-        <img src={`${frontentBaseUrl}/images/icon-add.svg`} alt="add" />
+        <img src={`${frontendBaseUrl}/images/icon-add.svg`} alt="add" />
         add
       </button>
     </div>

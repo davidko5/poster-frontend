@@ -9,7 +9,7 @@ import { SinglePost } from "./features/posts/SinglePost"
 import { Navbar } from "./features/navbar/Navbar"
 import { UsersList } from "./features/users/UsersList"
 
-const frontentBaseUrl = import.meta.env.VITE_BASE_URL
+// const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
 function App() {
   const dispatch = useAppDispatch()
@@ -18,19 +18,19 @@ function App() {
     dispatch(fetchUsers())
   })
 
-  const frontentBaseUrl = "/poster-frontend"
+  const frontendBaseUrl = "/poster-frontend"
 
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
         <Route
-          path={`${frontentBaseUrl}/`}
-          Component={() => <Navigate to={`${frontentBaseUrl}/posts`} />}
+          path={`${frontendBaseUrl}/`}
+          Component={() => <Navigate to={`${frontendBaseUrl}/posts`} />}
         />
-        <Route path={`${frontentBaseUrl}/posts`} Component={PostList} />
-        <Route path={`${frontentBaseUrl}/posts/:id`} Component={SinglePost} />
-        <Route path={`${frontentBaseUrl}/users`} Component={UsersList} />
+        <Route path={`${frontendBaseUrl}/posts`} Component={PostList} />
+        <Route path={`${frontendBaseUrl}/posts/:id`} Component={SinglePost} />
+        <Route path={`${frontendBaseUrl}/users`} Component={UsersList} />
       </Routes>
     </BrowserRouter>
   )
