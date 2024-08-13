@@ -35,7 +35,11 @@ const DeleteEditBtns = ({
 }) => {
   return (
     <div className={styles.deleteEditBtnsContainer}>
-      <div className={styles.deleteBtn} onClick={onDeleteClicked}>
+      <div
+        data-testid="deleteBtn"
+        className={styles.deleteBtn}
+        onClick={onDeleteClicked}
+      >
         <span className={styles.deleteIcon}></span>
         <span>Delete</span>
       </div>
@@ -549,7 +553,9 @@ export const SinglePost = () => {
               </div>
               {!isEditing ? (
                 <>
-                  <p className={styles.content}>{post.content}</p>
+                  <p data-testid="postContent" className={styles.content}>
+                    {post.content}
+                  </p>
                 </>
               ) : (
                 <EditInput

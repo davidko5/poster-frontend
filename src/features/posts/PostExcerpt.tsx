@@ -17,8 +17,10 @@ export function PostExcerpt({
 }) {
   const navigate = useNavigate()
   const post = useAppSelector((state) => selectPostById(state, postId))
+
   return post ? (
     <div
+      data-testid="postExcerpt"
       onClick={() => navigate(`${frontendBaseUrl}/posts/${postId}`)}
       className={styles.postPreviewContainer}
     >
@@ -31,7 +33,7 @@ export function PostExcerpt({
         <YouLabel entity={post} currentUser={currentUser} />
         <TimeAgo timestamp={post.createdAt} />
       </div>
-      <p className={styles.contentPreview}>
+      <p data-testid="postExcerptContent" className={styles.contentPreview}>
         {post.content.length < 80
           ? post.content
           : post.content.slice(0, 70) + "..."}

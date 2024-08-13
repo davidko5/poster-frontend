@@ -43,6 +43,7 @@ export const TextareaModal = ({
     <div className={styles.textareaModalContainer}>
       <div ref={modalContainerRef} className={styles.textareaModal}>
         <textarea
+          data-testid="addPostTextarea"
           value={textareaValue}
           onChange={(e) => setTextareaValue(e.target.value)}
           ref={textareaRef}
