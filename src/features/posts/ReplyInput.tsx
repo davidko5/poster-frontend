@@ -41,6 +41,11 @@ export const ReplyInput = (props: ReplyInputProps) => {
 
   useOutsideAlerter(componentContainerRef, onClickOutside)
 
+  const handleConfirmation = () => {
+    onSendClick && onSendClick(textareaValue)
+    setTextareaValue("")
+  }
+
   useEffect(() => {
     const handleWindowResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight })
@@ -54,7 +59,11 @@ export const ReplyInput = (props: ReplyInputProps) => {
   }, [])
 
   return (
-    <div className={styles.replyInputContainer} ref={componentContainerRef}>
+    <div
+      data-testid="replyInput"
+      className={styles.replyInputContainer}
+      ref={componentContainerRef}
+    >
       {windowSize.width > 600 && (
         <img
           src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
@@ -68,13 +77,12 @@ export const ReplyInput = (props: ReplyInputProps) => {
         ref={textareaRef}
         placeholder={placeholder}
         onKeyDown={ctrlEnterConfirmation}
-      ></textarea>
+      />
       {windowSize.width > 600 && (
         <div
+          data-testid="replyInputBtn"
           className={styles.replyInputBtn}
-          onClick={() => {
-            onSendClick && onSendClick(textareaValue)
-          }}
+          onClick={handleConfirmation}
         >
           <span>{btnText}</span>
         </div>
@@ -89,6 +97,7 @@ export const ReplyInput = (props: ReplyInputProps) => {
             className={styles.replyInputBtn}
             onClick={() => {
               onSendClick && onSendClick(textareaValue)
+              setTextareaValue("")
             }}
           >
             <span>{btnText}</span>

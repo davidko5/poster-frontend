@@ -26,7 +26,9 @@ export const PostList = () => {
       {orderedPostsIds.length ? (
         <div className={styles.postsPreviewContainer}>{layedPosts}</div>
       ) : (
-        <div className={styles.notFoundContainer}>No posts found</div>
+        <div data-testid="noPostsModal" className={styles.notFoundContainer}>
+          No posts found
+        </div>
       )}
 
       {addPostModalOpen && (

@@ -49,6 +49,7 @@ export const EditInput = ({
   return (
     <div className={styles.editingContainer} ref={editInputContainerRef}>
       <textarea
+        data-testid="editInput"
         value={textareaValue}
         onChange={(e) => setTextareaValue(e.target.value)}
         placeholder="Add a reply"
@@ -61,7 +62,7 @@ export const EditInput = ({
           onUpdate()
         }}
       >
-        <span>UPDATE</span>
+        <span data-testid="editInputUpdateBtn">UPDATE</span>
       </div>
     </div>
   )

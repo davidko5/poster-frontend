@@ -11,9 +11,6 @@ const backendUrl = isDev
   ? "http://localhost:3001"
   : "https://davidko5-express.onrender.com"
 
-// when local server is not running
-// const backendUrl = "https://davidko5-express.onrender.com"
-
 interface PostsState {
   status: "idle" | "succeeded"
   ids: Array<string>
