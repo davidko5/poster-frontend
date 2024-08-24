@@ -12,6 +12,8 @@ export const UsersList = () => {
 
   const UserProfileExcerpt = ({ userId }: { userId: string }) => {
     const user = useAppSelector((state) => selectUserById(state, userId))
+    if (!user) return null
+
     return (
       <div className={styles.userProfileExcerpt}>
         <img
