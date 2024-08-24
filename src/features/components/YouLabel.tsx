@@ -1,11 +1,11 @@
+import { User } from "../../types"
 import styles from "./Components.module.scss"
-import { Author } from "../../utils/types"
 
 export const YouLabel = ({
   entity,
   currentUser,
 }: {
-  entity: { author: Author }
+  entity: { author: User }
   currentUser: string
 }) => {
   return entity.author._id === currentUser ? (
