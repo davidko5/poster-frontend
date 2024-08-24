@@ -64,6 +64,7 @@ export const DeleteModal = ({
             {cancelBtnText}
           </button>
           <button
+            data-testid="deleteModalConfirmationBtn"
             className={styles.confirmationBtn}
             onClick={() => {
               onConfirmation && onConfirmation()

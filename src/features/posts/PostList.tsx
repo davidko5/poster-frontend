@@ -1,18 +1,13 @@
 import { useState, useRef } from "react"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
-import { selectPostById, selectPostsIds, addPost } from "./postsSlice"
-import { EntityId } from "@reduxjs/toolkit"
+import { selectPostsIds, addPost } from "./postsSlice"
 import styles from "./Posts.module.scss"
-import { useNavigate } from "react-router-dom"
-import { YouLabel } from "../components/YouLabel"
-import { TimeAgo } from "./TimeAgo"
 import { TextareaModal } from "./TextareaModal"
 import { PostExcerpt } from "./PostExcerpt"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
 export const PostList = () => {
-  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const orderedPostsIds = useAppSelector(selectPostsIds)
@@ -31,7 +26,9 @@ export const PostList = () => {
       {orderedPostsIds.length ? (
         <div className={styles.postsPreviewContainer}>{layedPosts}</div>
       ) : (
-        <div className={styles.notFoundContainer}>No posts found</div>
+        <div data-testid="noPostsModal" className={styles.notFoundContainer}>
+          No posts found
+        </div>
       )}
 
       {addPostModalOpen && (
@@ -46,6 +43,7 @@ export const PostList = () => {
       )}
 
       <button
+        disabled={!currentUser}
         onClick={() => setAddPostModalOpen(true)}
         className={styles.addPostBtn}
       >

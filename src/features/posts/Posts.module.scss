@@ -77,6 +77,10 @@ $white: hsl(0, 0%, 100%);
 .addPostBtn:focus {
   outline-color: $lightGrayishBlue;
 }
+.addPostBtn:disabled {
+  background-color: $lightGray;
+  cursor: default;
+}
 
 .postContainer {
   margin: 50px auto 0px;

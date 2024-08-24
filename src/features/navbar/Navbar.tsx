@@ -39,6 +39,7 @@ export const Navbar = () => {
             <Link to={`${frontendBaseUrl}/users`}>Users</Link>
           </div>
           <select
+            data-testid="userSelect"
             onChange={(e) => dispatch(currentUserSet(e.target.value))}
             className={styles.userSelector}
           >
