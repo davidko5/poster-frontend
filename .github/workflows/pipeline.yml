@@ -42,7 +42,7 @@ jobs:
       - name: Start Express server
         run: |
           cd express-backend
-          nohup npm start &
+          nohup npm run start:global-db-test &
 
       - name: Wait for Express server to be ready
         run: |
