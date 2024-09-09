@@ -52,7 +52,7 @@ jobs:
 
       - name: Start React app
         run: |
-          nohup npm start &  # Run the React app in the background
+          nohup npm start &
 
       - name: Wait for React app to be ready
         run: |
