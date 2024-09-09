@@ -1,4 +1,4 @@
-import styles from "./components.module.scss"
+import styles from "./Components.module.scss"
 import { useOutsideAlerter } from "../../utils/useOutsideAlerter"
 import { useRef, useState, useEffect } from "react"
 
