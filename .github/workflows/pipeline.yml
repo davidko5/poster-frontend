@@ -40,7 +40,7 @@ jobs:
 
       - name: Start Express server
         run: |
-          cd express-server-repo
+          cd express-backend
           nohup npm start &
 
       - name: Wait for Express server to be ready
