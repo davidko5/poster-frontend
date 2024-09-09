@@ -30,8 +30,10 @@ jobs:
       - name: Install poster-frontend dependencies
         run: npm ci
 
-      - name: Install poster-frontend dependencies
+      - name: Install express-backend dependencies
         run: |
+          pwd
+          ls -l
           cd express-backend
           npm ci
 
