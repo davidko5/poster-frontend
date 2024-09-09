@@ -15,7 +15,7 @@
     "vitest:coverage": "npm run vitest -- --coverage",
     "playwright-test": "npx playwright test",
     "test-ui-chromium": " npm run playwright-test -- --ui --project chromium",
-    "playwright-chromium": "npx playwright test --project chromium",
+    "playwright-chromium": "npx playwright test --project chromium --trace on",
     "format": "prettier --write .",
     "lint": "eslint .",
     "type-check": "tsc"
