@@ -58,6 +58,6 @@ jobs:
           done
     
       - name: run tests
-        run: npm run playwright-chromuim
+        run: npm run playwright-chromium
       
       
