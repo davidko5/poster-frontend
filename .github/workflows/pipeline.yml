@@ -1,0 +1,70 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  simple_deployment_pipeline:
+    timeout-minutes: 60
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout poster-frontend react app repo
+        uses: actions/checkout@v4
+
+      - name: Checkout express-backend app repo
+        uses: actions/checkout@v4
+        with:
+          repository: davidko5/express-backend
+          path: express-backend
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install poster-frontend dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Install express-backend dependencies
+        run: |
+          cd express-backend
+          npm ci
+
+      - name: Start Express server
+        run: |
+          cd express-backend
+          nohup npm run start:global-db-test &
+
+      - name: Wait for Express server to be ready
+        run: |
+          while ! nc -z localhost 3001; do
+            sleep 1
+          done
+
+      - name: Start React app
+        run: |
+          nohup npm start &  # Run the React app in the background
+
+      - name: Wait for React app to be ready
+        run: |
+          while ! nc -z localhost 5173; do
+            sleep 1
+          done
+
+      - name: run tests
+        run: npm run playwright-chromium
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
