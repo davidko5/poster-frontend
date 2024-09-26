@@ -1,7 +1,7 @@
 name: Deployment pipeline
 
 env: 
-  flobal_db_test: ${{secrets.GLOBAL_DB_TEST_URL}}
+  global_db_test_url: ${{secrets.GLOBAL_DB_TEST_URL}}
 
 on:
   push:
