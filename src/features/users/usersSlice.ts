@@ -1,6 +1,7 @@
 import {
   createAsyncThunk,
   createEntityAdapter,
+  createSelector,
   createSlice,
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
@@ -49,6 +50,12 @@ export const {
   selectById: selectUserById,
   selectIds: selectUsersIds,
 } = usersAdapter.getSelectors((state: RootState) => state.users)
+
+export const selectUserIdsOrUndefined = createSelector(
+  (state: RootState) => state.users.ids.length > 0, // Check if any users exist
+  selectUsersIds,
+  (hasData, ids) => (hasData ? ids : undefined),
+)
 
 export const { currentUserSet } = usersSlice.actions
 export default usersSlice.reducer

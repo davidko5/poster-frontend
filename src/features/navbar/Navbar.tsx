@@ -3,16 +3,16 @@ import { Link } from "react-router-dom"
 import styles from "./Navbar.module.scss"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import {
-  selectUsersIds,
   selectUserById,
   currentUserSet,
+  selectUserIdsOrUndefined,
 } from "../users/usersSlice"
 import { EntityId } from "@reduxjs/toolkit"
 
 const frontendBaseUrl = "/poster-frontend"
 
 export const Navbar = () => {
-  const usersIds = useAppSelector(selectUsersIds)
+  const usersIds = useAppSelector(selectUserIdsOrUndefined)
   const dispatch = useAppDispatch()
 
   const UserSelectOption = ({ userId }: { userId: EntityId }) => {
@@ -21,8 +21,8 @@ export const Navbar = () => {
   }
 
   useEffect(() => {
-    dispatch(currentUserSet(usersIds[0]))
-  })
+    usersIds && dispatch(currentUserSet(usersIds[0]))
+  }, [usersIds, dispatch])
 
   return (
     <nav className={styles.navbarContainer}>
@@ -38,15 +38,17 @@ export const Navbar = () => {
           <div>
             <Link to={`${frontendBaseUrl}/users`}>Users</Link>
           </div>
-          <select
-            data-testid="userSelect"
-            onChange={(e) => dispatch(currentUserSet(e.target.value))}
-            className={styles.userSelector}
-          >
-            {usersIds.map((userId) => {
-              return <UserSelectOption key={userId} userId={userId} />
-            })}
-          </select>
+          {usersIds && (
+            <select
+              data-testid="userSelect"
+              onChange={(e) => dispatch(currentUserSet(e.target.value))}
+              className={styles.userSelector}
+            >
+              {usersIds.map((userId) => {
+                return <UserSelectOption key={userId} userId={userId} />
+              })}
+            </select>
+          )}
         </div>
       </section>
     </nav>

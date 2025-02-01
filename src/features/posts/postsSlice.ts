@@ -1,6 +1,7 @@
 import {
   createAsyncThunk,
   createEntityAdapter,
+  createSelector,
   createSlice,
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
@@ -333,5 +334,11 @@ export const {
   selectById: selectPostById,
   selectIds: selectPostsIds,
 } = postsAdapter.getSelectors((state: RootState) => state.posts)
+
+export const selectPostIdsOrUndefined = createSelector(
+  (state: RootState) => state.posts.ids.length > 0, // Check if any posts exist
+  selectPostsIds,
+  (hasData, ids) => (hasData ? ids : undefined),
+)
 
 export default postsSlice.reducer
