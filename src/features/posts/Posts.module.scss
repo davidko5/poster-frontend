@@ -19,13 +19,18 @@ $white: hsl(0, 0%, 100%);
 }
 
 .notFoundContainer {
+  min-height: 150px;
+  padding: 16px;
   box-sizing: border-box;
   width: 300px;
   margin: 100px auto;
-  padding: 70px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   background-color: $white;
   font-size: 32px;
+  // line-height: 32px;
   font-weight: 500;
   color: $darkBlue;
   border-radius: 10px;
