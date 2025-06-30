@@ -18,7 +18,7 @@ export const PostList = () => {
   const addPostModalContainerRef = useRef(null)
   const layedPosts = orderedPostsIds?.map((postId) => {
     return (
-      <PostExcerpt key={postId} postId={postId} currentUser={currentUser} />
+      <PostExcerpt key={postId} postId={postId} currentUser={currentUser?.id} />
     )
   })
 
@@ -51,7 +51,9 @@ export const PostList = () => {
           modalContainerRef={addPostModalContainerRef}
           setIsModalOpened={setAddPostModalOpen}
           onConfirmation={(content) => {
-            dispatch(addPost({ content, author: currentUser }))
+            if (currentUser) {
+              dispatch(addPost({ content, authorId: currentUser.id }))
+            }
           }}
           confirmBtnText="ADD POST"
         />

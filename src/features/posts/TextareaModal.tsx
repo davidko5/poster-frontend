@@ -49,7 +49,10 @@ export const TextareaModal = ({
           ref={textareaRef}
           placeholder={"What is on your mind ?"}
           onKeyDown={ctrlEnterConfirmation}
-        ></textarea>
+          style={{
+            padding: "10px",
+          }}
+        />
         <button
           className={styles.confirmationBtn}
           onClick={() => {

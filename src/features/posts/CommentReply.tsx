@@ -11,6 +11,7 @@ import { ReplyBtn } from "./ReplyBtn"
 import { DeleteEditBtns } from "./DeleteEditBtns"
 import { EditInput } from "./EditInput"
 import { DeleteModal } from "../components/DeleteModal"
+import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -69,12 +70,17 @@ export const CommentReply = ({
     }
   }
 
+  const author = useAppSelector((state) =>
+    selectUserById(state, reply.authorId),
+  )
+
   return (
     <>
       <div data-testid="commentReply" className={styles.commentContainer}>
         <div className={styles.commentBody}>
           {windowSize.width > 900 && (
             <PlusMinusInput
+              disabled={!currentUser}
               score={Number(reply.score)}
               onPlusMinusClickHandler={(valueToIncrement) =>
                 editReplyDispatcher({
@@ -87,20 +93,31 @@ export const CommentReply = ({
           )}
           <div className={styles.userLabelAndContentContainer}>
             <div className={styles.postAuthorImgNameTimeAgo}>
-              <img
+              {/* <img
                 src={`${frontendBaseUrl}/images/avatars/${reply.author.image.webp}`}
                 alt="author"
+              /> */}
+              <img
+                src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
+                alt="author"
               />
-              <span className={styles.userName}>{reply.author.userName}</span>
-              <YouLabel entity={reply} currentUser={currentUser} />
+              <span className={styles.userName}>
+                {author?.name || getPublicUserNamePlaceholder(reply.authorId)}
+              </span>
+              {currentUser && (
+                <YouLabel
+                  authorId={reply.authorId}
+                  currentUserId={currentUser.id}
+                />
+              )}
               <TimeAgo timestamp={reply.createdAt} />
               {window.innerWidth > 900 &&
-                (reply.author._id !== currentUser ? (
+                (reply.authorId !== currentUser?.id ? (
                   <ReplyBtn
                     authorIdToReplyTo={authorIdToReplyTo}
                     textareaToFocus={replyReplyInputTextareaRef}
                     inputOpenSet={setReplyReplyInputOpen}
-                    authorId={reply.author._id}
+                    authorId={reply.authorId}
                   />
                 ) : (
                   <DeleteEditBtns
@@ -117,7 +134,10 @@ export const CommentReply = ({
               <div className={styles.contentContainer}>
                 <p data-testid="content" className={styles.content}>
                   <span className={styles.replyAuthorReference}>
-                    @{repliedTo?.userName} &nbsp;
+                    @
+                    {repliedTo?.name ||
+                      getPublicUserNamePlaceholder(reply.repliedTo)}{" "}
+                    &nbsp;
                   </span>
                   {reply.content}
                 </p>
@@ -144,6 +164,7 @@ export const CommentReply = ({
             <div className={styles.plusMinusDeleteEditReplyReplacedContainer}>
               {windowSize.width < 900 && (
                 <PlusMinusInput
+                  disabled={!currentUser}
                   score={Number(reply.score)}
                   onPlusMinusClickHandler={(valueToIncrement) =>
                     editReplyDispatcher({
@@ -155,12 +176,12 @@ export const CommentReply = ({
                 />
               )}
               {window.innerWidth < 900 &&
-                (reply.author._id !== currentUser ? (
+                (reply.authorId !== currentUser?.id ? (
                   <ReplyBtn
                     authorIdToReplyTo={authorIdToReplyTo}
                     textareaToFocus={replyReplyInputTextareaRef}
                     inputOpenSet={setReplyReplyInputOpen}
-                    authorId={reply.author._id}
+                    authorId={reply.authorId}
                   />
                 ) : (
                   <DeleteEditBtns

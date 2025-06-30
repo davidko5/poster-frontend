@@ -8,6 +8,7 @@ describe("PlusMinusInput", () => {
   const renderComponent = () =>
     render(
       <PlusMinusInput
+        disabled={false}
         score={INITIAL_SCORE}
         onPlusMinusClickHandler={() => {}}
       />,
@@ -29,6 +30,7 @@ describe("PlusMinusInput", () => {
 
     render(
       <PlusMinusInput
+        disabled={false}
         score={INITIAL_SCORE}
         onPlusMinusClickHandler={mockHandler}
       />,

@@ -1,3 +1,4 @@
+import { useAppSelector } from "../../app/hooks"
 import styles from "./Posts.module.scss"
 
 const sendCommentTextAreaFocus = (ref: any) => {
@@ -8,30 +9,45 @@ export const ReplyBtn = ({
   authorIdToReplyTo,
   inputOpenSet,
   textareaToFocus,
-  authorToReplyToSet,
   authorId,
   style,
 }: {
   authorIdToReplyTo: React.MutableRefObject<string>
   inputOpenSet?: React.Dispatch<React.SetStateAction<boolean>>
   textareaToFocus: React.RefObject<HTMLTextAreaElement>
-  authorToReplyToSet?: React.Dispatch<React.SetStateAction<string>>
   authorId?: string
   style?: React.CSSProperties | undefined
 }) => {
+  const currentUser = useAppSelector((state) => state.users.currentUser)
+
   return (
     <div
       data-testid="postReplyBtn"
       className={styles.replyBtn}
       onClick={async () => {
+        if (!currentUser) return
+
         if (authorId) authorIdToReplyTo.current = authorId
         inputOpenSet && (await inputOpenSet(true))
         sendCommentTextAreaFocus(textareaToFocus)
       }}
-      style={style}
+      style={{ ...style, ...{ cursor: !currentUser ? "default" : "pointer" } }}
     >
-      <span className={styles.replyIcon}></span>
-      <span>Reply</span>
+      <span
+        style={{
+          backgroundImage: !currentUser
+            ? "url(/images/icon-reply-hovered.svg)"
+            : "",
+        }}
+        className={styles.replyIcon}
+      ></span>
+      <span
+        style={{
+          color: !currentUser ? "hsl(239, 57%, 85%)" : "",
+        }}
+      >
+        Reply
+      </span>
     </div>
   )
 }

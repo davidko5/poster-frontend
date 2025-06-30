@@ -23,7 +23,7 @@ interface Post {
   createdAt: string
   updatedAt: string
   content: string
-  author: User
+  authorId: string
   score: number
   comments: Array<Comment>
 }
@@ -64,10 +64,10 @@ export const addPost = createAsyncThunk(
   async (
     {
       content,
-      author,
+      authorId,
     }: {
       content: string
-      author: string
+      authorId: string
     },
     { dispatch },
   ) => {
@@ -75,7 +75,7 @@ export const addPost = createAsyncThunk(
       method: "POST",
       body: JSON.stringify({
         content: content,
-        author: author,
+        authorId: authorId,
         score: 0,
       }),
       headers: {
@@ -93,11 +93,11 @@ export const addComment = createAsyncThunk(
     {
       content,
       postId,
-      author,
+      authorId,
     }: {
       content: string
       postId: string
-      author: string
+      authorId: string
     },
     { dispatch },
   ) => {
@@ -105,7 +105,7 @@ export const addComment = createAsyncThunk(
       method: "PUT",
       body: JSON.stringify({
         content: content,
-        author: author,
+        authorId: authorId,
         score: 0,
       }),
       headers: {
@@ -124,13 +124,13 @@ export const addReply = createAsyncThunk(
       content,
       postId,
       commentId,
-      author,
+      authorId,
       repliedTo,
     }: {
       content: string
       postId: string
       commentId: string
-      author: string
+      authorId: string
       repliedTo: string
     },
     { dispatch },
@@ -141,7 +141,7 @@ export const addReply = createAsyncThunk(
         method: "PUT",
         body: JSON.stringify({
           content: content,
-          author: author,
+          authorId: authorId,
           repliedTo: repliedTo,
           score: 0,
         }),

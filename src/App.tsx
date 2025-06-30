@@ -2,26 +2,28 @@ import { useEffect } from "react"
 import { useAppDispatch } from "./app/hooks"
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
 import { fetchPosts } from "./features/posts/postsSlice"
-import { fetchUsers } from "./features/users/usersSlice"
+import { fetchUsers, getAuthenticatedUser } from "./features/users/usersSlice"
 import "./App.css"
 import { PostList } from "./features/posts/PostList"
 import { SinglePost } from "./features/posts/SinglePost"
 import { Navbar } from "./features/navbar/Navbar"
 import { UsersList } from "./features/users/UsersList"
+import { AuthHandler } from "./features/users/AuthHandler"
 
-// const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+const frontendBaseUrl = "/poster-frontend"
 
 function App() {
   const dispatch = useAppDispatch()
+
   useEffect(() => {
+    dispatch(getAuthenticatedUser())
     dispatch(fetchPosts())
     dispatch(fetchUsers())
-  })
-
-  const frontendBaseUrl = "/poster-frontend"
+  }, [dispatch])
 
   return (
     <BrowserRouter>
+      <AuthHandler />
       <Navbar />
       <Routes>
         <Route

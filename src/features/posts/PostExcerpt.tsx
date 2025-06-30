@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"
 import styles from "./Posts.module.scss"
 import { YouLabel } from "../components/YouLabel"
 import { TimeAgo } from "./TimeAgo"
+import { selectUserById } from "../users/usersSlice"
+import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -13,10 +15,13 @@ export function PostExcerpt({
   currentUser,
 }: {
   postId: EntityId
-  currentUser: string
+  currentUser: string | undefined
 }) {
   const navigate = useNavigate()
   const post = useAppSelector((state) => selectPostById(state, postId))
+  const author = useAppSelector((state) =>
+    selectUserById(state, post?.authorId || ""),
+  )
 
   return post ? (
     <div
@@ -25,12 +30,20 @@ export function PostExcerpt({
       className={styles.postPreviewContainer}
     >
       <div className={styles.postAuthorImgNameTimeAgo}>
-        <img
+        {/* <img
           src={`${frontendBaseUrl}/images/avatars/${post.author.image.webp}`}
           alt="author"
+        /> */}
+        <img
+          src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
+          alt="author"
         />
-        <span className={styles.userName}>{post.author.userName}</span>
-        <YouLabel entity={post} currentUser={currentUser} />
+        <span className={styles.userName}>
+          {author?.name || getPublicUserNamePlaceholder(post.authorId)}
+        </span>
+        {currentUser && (
+          <YouLabel authorId={post.authorId} currentUserId={currentUser} />
+        )}
         <TimeAgo timestamp={post.createdAt} />
       </div>
       <p data-testid="postExcerptContent" className={styles.contentPreview}>

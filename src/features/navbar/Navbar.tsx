@@ -1,28 +1,16 @@
-import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import styles from "./Navbar.module.scss"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import {
-  selectUserById,
-  currentUserSet,
-  selectUserIdsOrUndefined,
-} from "../users/usersSlice"
-import { EntityId } from "@reduxjs/toolkit"
-
-const frontendBaseUrl = "/poster-frontend"
+import { logout, selectCurrentUser } from "../users/usersSlice"
+import { authServiceLoginUrl, frontendBaseUrl } from "../../misc-constant"
 
 export const Navbar = () => {
-  const usersIds = useAppSelector(selectUserIdsOrUndefined)
+  const currentUser = useAppSelector(selectCurrentUser)
   const dispatch = useAppDispatch()
 
-  const UserSelectOption = ({ userId }: { userId: EntityId }) => {
-    const user = useAppSelector((state) => selectUserById(state, userId))
-    return <option value={userId}>{user?.userName}</option>
+  const handleLogout = () => {
+    dispatch(logout())
   }
-
-  useEffect(() => {
-    usersIds && dispatch(currentUserSet(usersIds[0]))
-  }, [usersIds, dispatch])
 
   return (
     <nav className={styles.navbarContainer}>
@@ -32,22 +20,31 @@ export const Navbar = () => {
           Made using React, Redux, Express and MongoDB
         </h2>
         <div className={styles.navBtnsAndSelectContainer}>
-          <div>
-            <Link to={`${frontendBaseUrl}/posts`}>Posts</Link>
+          <div style={{ display: "flex" }}>
+            <div className={styles.navBarLink}>
+              <Link to={`${frontendBaseUrl}/posts`}>Posts</Link>
+            </div>
+            <div className={styles.navBarLink}>
+              <Link to={`${frontendBaseUrl}/users`}>Users</Link>
+            </div>
           </div>
-          <div>
-            <Link to={`${frontendBaseUrl}/users`}>Users</Link>
-          </div>
-          {usersIds && (
-            <select
-              data-testid="userSelect"
-              onChange={(e) => dispatch(currentUserSet(e.target.value))}
-              className={styles.userSelector}
-            >
-              {usersIds.map((userId) => {
-                return <UserSelectOption key={userId} userId={userId} />
-              })}
-            </select>
+          {!currentUser && (
+            <div className={styles.navBarMessage}>
+              🔒 You're in view only mode. Sign in to see real users nicknames and
+              join the conversation.
+            </div>
+          )}
+          {currentUser ? (
+            <div style={{ display: "flex" }}>
+              <div className={styles.navBarInfo}>{currentUser.name}</div>
+              <button className={styles.navBarButton} onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className={styles.navBarLink}>
+              <Link to={authServiceLoginUrl}>Login</Link>
+            </div>
           )}
         </div>
       </section>

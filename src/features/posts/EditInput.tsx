@@ -55,7 +55,10 @@ export const EditInput = ({
         placeholder="Add a reply"
         onKeyDown={ctrlEnterConfirmation}
         ref={textareaRef}
-      ></textarea>
+        style={{
+          padding: "10px",
+        }}
+      />
       <div
         className={styles.editingUpdateBtn}
         onClick={() => {

@@ -17,7 +17,7 @@ $white: hsl(0, 0%, 100%);
     align-items: center;
     background-color: $white;
     margin: 20px;
-    padding-right: 10px;
+    padding: 10px;
     border-radius: 25px;
     img {
         margin-right: 10px ;
@@ -60,4 +60,11 @@ $white: hsl(0, 0%, 100%);
 
 .notFoundContainer:hover {
   box-shadow: 0px 0px 35px $grayishBlue;
+}
+
+.unauthorizedLink {
+  a {
+    text-decoration: none;
+    color: $darkBlue;
+  }
 }

@@ -5,7 +5,7 @@ export interface Comment {
   _id: string
   content: string
   score: number
-  author: User
+  authorId: string
   createdAt: string
   updatedAt: string
   replies: Array<Reply>

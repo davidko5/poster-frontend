@@ -12,17 +12,20 @@ interface ReplyInputProps {
   btnText: string
   onClickOutside?: () => void
   onSendClick?: (content: string) => void
+  disabled?: boolean
 }
 
 export const ReplyInput = (props: ReplyInputProps) => {
-  const { placeholder, textareaRef, btnText, onClickOutside, onSendClick } =
-    props
+  const {
+    placeholder,
+    textareaRef,
+    btnText,
+    onClickOutside,
+    onSendClick,
+    disabled = false,
+  } = props
 
   const [textareaValue, setTextareaValue] = useState("")
-  const currentUserId = useAppSelector((state) => state.users.currentUser)
-  const currentUser = useAppSelector((state) =>
-    selectUserById(state, currentUserId),
-  )
   const componentContainerRef = useRef(null)
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -42,6 +45,8 @@ export const ReplyInput = (props: ReplyInputProps) => {
   useOutsideAlerter(componentContainerRef, onClickOutside)
 
   const handleConfirmation = () => {
+    if (disabled) return
+
     onSendClick && onSendClick(textareaValue)
     setTextareaValue("")
   }
@@ -65,8 +70,12 @@ export const ReplyInput = (props: ReplyInputProps) => {
       ref={componentContainerRef}
     >
       {windowSize.width > 600 && (
+        // <img
+        //   src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
+        //   alt="author"
+        // />
         <img
-          src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
+          src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
           alt="author"
         />
       )}
@@ -77,27 +86,41 @@ export const ReplyInput = (props: ReplyInputProps) => {
         ref={textareaRef}
         placeholder={placeholder}
         onKeyDown={ctrlEnterConfirmation}
+        style={{
+          padding: "10px",
+          opacity: disabled ? 0.5 : 1,
+        }}
+        disabled={disabled}
       />
       {windowSize.width > 600 && (
         <div
           data-testid="replyInputBtn"
           className={styles.replyInputBtn}
           onClick={handleConfirmation}
+          style={{
+            backgroundColor: disabled ? "hsl(239, 57%, 85%)" : "",
+            cursor: disabled ? "default" : "pointer",
+          }}
         >
           <span>{btnText}</span>
         </div>
       )}
       {windowSize.width < 600 && (
         <div className={styles.imageConfirmBtn}>
-          <img
+          {/* <img
             src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
+            alt="author"
+          /> */}
+          <img
+            src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
             alt="author"
           />
           <div
             className={styles.replyInputBtn}
-            onClick={() => {
-              onSendClick && onSendClick(textareaValue)
-              setTextareaValue("")
+            onClick={handleConfirmation}
+            style={{
+              backgroundColor: disabled ? "hsl(239, 57%, 85%)" : "",
+              cursor: disabled ? "default" : "pointer",
             }}
           >
             <span>{btnText}</span>

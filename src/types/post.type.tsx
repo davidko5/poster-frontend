@@ -5,7 +5,7 @@ export interface Post {
   createdAt: string
   updatedAt: string
   content: string
-  author: User
+  authorId: string
   score: number
   comments: Array<Comment>
 }

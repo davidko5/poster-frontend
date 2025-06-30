@@ -12,6 +12,8 @@ import { ReplyInput } from "./ReplyInput"
 import { DeleteModal } from "../components/DeleteModal"
 import { DeleteEditBtns } from "./DeleteEditBtns"
 import { CommentReply } from "./CommentReply"
+import { selectUserById } from "../users/usersSlice"
+import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -61,6 +63,9 @@ export const CommentComponent = ({
       )
     }
   }
+  const author = useAppSelector((state) =>
+    selectUserById(state, Number(comment.authorId)),
+  )
 
   return (
     <>
@@ -68,6 +73,7 @@ export const CommentComponent = ({
         <div className={styles.commentBody}>
           {window.innerWidth > 900 && (
             <PlusMinusInput
+              disabled={!currentUser}
               score={Number(comment.score)}
               onPlusMinusClickHandler={(valueToIncrement) =>
                 editCommentDispatcher({
@@ -79,20 +85,31 @@ export const CommentComponent = ({
           )}
           <div className={styles.userLabelAndContentContainer}>
             <div className={styles.postAuthorImgNameTimeAgo}>
-              <img
+              {/* <img
                 src={`${frontendBaseUrl}/images/avatars/${comment.author.image.webp}`}
                 alt="author"
+              /> */}
+              <img
+                src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
+                alt="author"
               />
-              <span className={styles.userName}>{comment.author.userName}</span>
-              <YouLabel entity={comment} currentUser={currentUser} />
+              <span className={styles.userName}>
+                {author?.name || getPublicUserNamePlaceholder(comment.authorId)}
+              </span>
+              {currentUser && (
+                <YouLabel
+                  authorId={comment.authorId}
+                  currentUserId={currentUser.id}
+                />
+              )}
               <TimeAgo timestamp={comment.createdAt} />
               {window.innerWidth > 900 &&
-                (comment.author._id !== currentUser ? (
+                (author?.id !== currentUser?.id ? (
                   <ReplyBtn
                     authorIdToReplyTo={authorIdToReplyTo}
                     textareaToFocus={commentReplyInputTextareaRef}
                     inputOpenSet={setCommentReplyInputOpen}
-                    authorId={comment.author._id}
+                    authorId={comment.authorId}
                   />
                 ) : (
                   <DeleteEditBtns
@@ -130,6 +147,7 @@ export const CommentComponent = ({
             <div className={styles.plusMinusDeleteEditReplyReplacedContainer}>
               {windowSize.width < 900 && (
                 <PlusMinusInput
+                  disabled={!currentUser}
                   score={Number(comment.score)}
                   onPlusMinusClickHandler={(valueToIncrement) =>
                     editCommentDispatcher({
@@ -140,12 +158,12 @@ export const CommentComponent = ({
                 />
               )}
               {window.innerWidth < 900 &&
-                (comment.author._id !== currentUser ? (
+                (comment.authorId !== currentUser?.id ? (
                   <ReplyBtn
                     authorIdToReplyTo={authorIdToReplyTo}
                     textareaToFocus={commentReplyInputTextareaRef}
                     inputOpenSet={setCommentReplyInputOpen}
-                    authorId={comment.author._id}
+                    authorId={comment.authorId}
                   />
                 ) : (
                   <DeleteEditBtns
@@ -182,16 +200,18 @@ export const CommentComponent = ({
               btnText="REPLY"
               onClickOutside={() => setReplyReplyInputOpen(false)}
               onSendClick={(content: string) => {
-                dispatch(
-                  addReply({
-                    postId,
-                    commentId: comment._id,
-                    content: content,
-                    author: currentUser,
-                    repliedTo: authorIdToReplyTo.current,
-                  }),
-                )
-                setReplyReplyInputOpen(false)
+                if (currentUser) {
+                  dispatch(
+                    addReply({
+                      postId,
+                      commentId: comment._id,
+                      content: content,
+                      authorId: currentUser.id,
+                      repliedTo: authorIdToReplyTo.current,
+                    }),
+                  )
+                  setReplyReplyInputOpen(false)
+                }
               }}
             />
           )}
@@ -203,16 +223,18 @@ export const CommentComponent = ({
             btnText="REPLY"
             onClickOutside={() => setCommentReplyInputOpen(false)}
             onSendClick={(content: string) => {
-              dispatch(
-                addReply({
-                  postId,
-                  commentId: comment._id,
-                  content: content,
-                  author: currentUser,
-                  repliedTo: authorIdToReplyTo.current,
-                }),
-              )
-              setCommentReplyInputOpen(false)
+              if (currentUser) {
+                dispatch(
+                  addReply({
+                    postId,
+                    commentId: comment._id,
+                    content: content,
+                    authorId: currentUser.id,
+                    repliedTo: authorIdToReplyTo.current,
+                  }),
+                )
+                setCommentReplyInputOpen(false)
+              }
             }}
           />
         )}

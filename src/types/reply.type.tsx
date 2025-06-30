@@ -4,7 +4,7 @@ export interface Reply {
   _id: string
   content: string
   score: number
-  author: User
+  authorId: string
   repliedTo: string
   createdAt: string
   updatedAt: string

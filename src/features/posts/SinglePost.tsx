@@ -20,6 +20,8 @@ import { Comment } from "../../types"
 import { ReplyBtn } from "./ReplyBtn"
 import { CommentComponent } from "./CommentComponent"
 import { DeleteEditBtns } from "./DeleteEditBtns"
+import { selectUserById } from "../users/usersSlice"
+import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -58,6 +60,9 @@ export const SinglePost = () => {
   }
 
   const postsFetchStatus = useAppSelector((state) => state.posts.status)
+  const author = useAppSelector((state) =>
+    selectUserById(state, Number(post?.authorId)),
+  )
 
   useEffect(() => {
     if (postsFetchStatus === "idle") dispatch(fetchPosts())
@@ -83,6 +88,7 @@ export const SinglePost = () => {
           <div className={styles.postBody}>
             {windowSize.width > 900 && (
               <PlusMinusInput
+                disabled={!currentUser}
                 score={Number(post.score)}
                 onPlusMinusClickHandler={(valueToIncrement) =>
                   editPostDispatcher({
@@ -94,32 +100,54 @@ export const SinglePost = () => {
             )}
             <div className={styles.userLabelAndContentContainer}>
               <div className={styles.postAuthorImgNameTimeAgo}>
-                <img
+                {/* <img
                   src={`${frontendBaseUrl}/images/avatars/${post.author.image.webp}`}
                   alt="author"
+                /> */}
+                <img
+                  src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
+                  alt="author"
                 />
-                <span className={styles.userName}>{post.author.userName}</span>
-                <YouLabel entity={post} currentUser={currentUser} />
+                <span className={styles.userName}>
+                  {author?.name || getPublicUserNamePlaceholder(post.authorId)}
+                </span>
+                {currentUser && (
+                  <YouLabel
+                    authorId={post.authorId}
+                    currentUserId={currentUser.id}
+                  />
+                )}
                 <TimeAgo timestamp={post.createdAt} />
-                {windowSize.width > 900 && post.author._id === currentUser && (
-                  <DeleteEditBtns
-                    onDeleteClicked={() => setDeleteModalOpened(true)}
-                    onEditClicked={() => {
-                      setIsEditing(!isEditing)
-                    }}
-                  />
-                )}
-                {windowSize.width > 900 && (
-                  <ReplyBtn
-                    authorIdToReplyTo={authorIdToReplyTo}
-                    textareaToFocus={postReplyInputTextareaRef}
-                    style={
-                      post.author._id === currentUser
-                        ? { marginLeft: "10px" }
-                        : { marginLeft: "auto" }
-                    }
-                  />
-                )}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    flexGrow: 1,
+                  }}
+                >
+                  {windowSize.width > 900 &&
+                    currentUser &&
+                    author?.id === currentUser?.id && (
+                      <DeleteEditBtns
+                        onDeleteClicked={() => setDeleteModalOpened(true)}
+                        onEditClicked={() => {
+                          setIsEditing(!isEditing)
+                        }}
+                      />
+                    )}
+                  {windowSize.width > 900 && (
+                    <ReplyBtn
+                      authorIdToReplyTo={authorIdToReplyTo}
+                      textareaToFocus={postReplyInputTextareaRef}
+                      style={
+                        author?.id === currentUser?.id
+                          ? { marginLeft: "10px" }
+                          : { marginLeft: "auto" }
+                      }
+                    />
+                  )}
+                </div>
               </div>
               {!isEditing ? (
                 <>
@@ -147,6 +175,7 @@ export const SinglePost = () => {
               <div className={styles.plusMinusDeleteEditReplyReplacedContainer}>
                 {windowSize.width < 900 && (
                   <PlusMinusInput
+                    disabled={!currentUser}
                     score={Number(post.score)}
                     onPlusMinusClickHandler={(valueToIncrement) =>
                       editPostDispatcher({
@@ -156,20 +185,22 @@ export const SinglePost = () => {
                     }
                   />
                 )}
-                {windowSize.width < 900 && post.author._id === currentUser && (
-                  <DeleteEditBtns
-                    onDeleteClicked={() => setDeleteModalOpened(true)}
-                    onEditClicked={() => {
-                      setIsEditing(!isEditing)
-                    }}
-                  />
-                )}
+                {windowSize.width < 900 &&
+                  currentUser &&
+                  author?.id === currentUser?.id && (
+                    <DeleteEditBtns
+                      onDeleteClicked={() => setDeleteModalOpened(true)}
+                      onEditClicked={() => {
+                        setIsEditing(!isEditing)
+                      }}
+                    />
+                  )}
                 {windowSize.width < 900 && (
                   <ReplyBtn
                     authorIdToReplyTo={authorIdToReplyTo}
                     textareaToFocus={postReplyInputTextareaRef}
                     style={
-                      post.author._id === currentUser
+                      author?.id === currentUser?.id
                         ? { marginLeft: "10px" }
                         : { marginLeft: "auto" }
                     }
@@ -194,15 +225,18 @@ export const SinglePost = () => {
             placeholder="Add a comment"
             textareaRef={postReplyInputTextareaRef}
             btnText="SEND"
-            onSendClick={(content: string) =>
-              dispatch(
-                addComment({
-                  postId: post._id,
-                  content: content,
-                  author: currentUser,
-                }),
-              )
-            }
+            onSendClick={(content: string) => {
+              if (currentUser) {
+                dispatch(
+                  addComment({
+                    postId: post._id,
+                    content: content,
+                    authorId: currentUser.id,
+                  }),
+                )
+              }
+            }}
+            disabled={!currentUser}
           />
         </div>
         {deleteModalOpened && (

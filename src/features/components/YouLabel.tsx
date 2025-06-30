@@ -1,14 +1,15 @@
 import { User } from "../../types"
+import { MtasUser } from "../../types/mtas-user.type"
 import styles from "./Components.module.scss"
 
 export const YouLabel = ({
-  entity,
-  currentUser,
+  authorId,
+  currentUserId,
 }: {
-  entity: { author: User }
-  currentUser: string
+  authorId: string
+  currentUserId: string
 }) => {
-  return entity.author._id === currentUser ? (
+  return authorId === currentUserId ? (
     <div className={styles.youLabelContainer}>
       <span className={styles.youLabel}>you</span>
     </div>
