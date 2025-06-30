@@ -15,9 +15,31 @@ export const Navbar = () => {
   return (
     <nav className={styles.navbarContainer}>
       <section>
-        <h1 className={styles.logoHeader}>Poster</h1>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h1 className={styles.logoHeader}>Poster</h1>
+          <a href="https://github.com/davidko5/poster-frontend" target="_blank">
+            <img
+              src="/images/github-mark.svg"
+              alt="github link"
+              className={styles.githubLink}
+            />
+          </a>
+        </div>
         <h2 className={styles.logoHeader}>
-          Made using React, Redux, Express and MongoDB
+          Made using React, Redux, Express and MongoDB{" · "}
+          <a
+            href="https://github.com/davidko5/multi-tenant-auth-service"
+            target="_blank"
+            className={styles.mtasLink}
+          >
+            Auth by MTAS
+          </a>
         </h2>
         <div className={styles.navBtnsAndSelectContainer}>
           <div style={{ display: "flex" }}>
@@ -30,8 +52,8 @@ export const Navbar = () => {
           </div>
           {!currentUser && (
             <div className={styles.navBarMessage}>
-              🔒 You're in view only mode. Sign in to see real users nicknames and
-              join the conversation.
+              🔒 You're in view only mode. Sign in to see real users nicknames
+              and join the conversation.
             </div>
           )}
           {currentUser ? (
