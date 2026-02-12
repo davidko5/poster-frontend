@@ -18,4 +18,4 @@ const appUrl = isDev
 
 export const authServiceLoginUrl = isDev
   ? `http://localhost:5011/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
-  : `https://multi-tenant-auth-service-wf1k.onrender.com/user-auth/login?redirectUri=${appUrl}/posts&appId=${appId}`
+  : `https://multi-tenant-auth-service-mtas-ui.vercel.app/user-auth/login?redirectUri=${appUrl}/posts&appId=${appId}`
