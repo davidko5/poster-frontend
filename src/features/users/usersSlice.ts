@@ -10,7 +10,7 @@ import { MtasUser } from "../../types/mtas-user.type"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
-  ? "http://localhost:3001"
+  ? "http://localhost:5012"
   : "https://davidko5-express.onrender.com"
 
 const authServiceUrl = isDev

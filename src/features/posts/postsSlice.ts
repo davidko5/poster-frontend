@@ -9,7 +9,7 @@ import { Comment, User } from "../../types"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
-  ? "http://localhost:3001"
+  ? "http://localhost:5012"
   : "https://davidko5-express.onrender.com"
 
 interface PostsState {
@@ -78,6 +78,7 @@ export const addPost = createAsyncThunk(
         authorId: authorId,
         score: 0,
       }),
+      credentials: "include",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -108,6 +109,7 @@ export const addComment = createAsyncThunk(
         authorId: authorId,
         score: 0,
       }),
+      credentials: "include",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -145,6 +147,7 @@ export const addReply = createAsyncThunk(
           repliedTo: repliedTo,
           score: 0,
         }),
+        credentials: "include",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -175,6 +178,7 @@ export const editPost = createAsyncThunk(
         ...(content && { content }),
         ...(score && { score }),
       }),
+      credentials: "include",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -208,6 +212,7 @@ export const editComment = createAsyncThunk(
           ...(content && { content }),
           ...(score && { score }),
         }),
+        credentials: "include",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -244,6 +249,7 @@ export const editReply = createAsyncThunk(
           ...(content && { content }),
           ...(score && { score }),
         }),
+        credentials: "include",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -266,6 +272,7 @@ export const deletePost = createAsyncThunk(
   ) => {
     const response = await fetch(`${backendUrl}/posts/delete/${postId}`, {
       method: "DELETE",
+      credentials: "include",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -291,6 +298,7 @@ export const deleteComment = createAsyncThunk(
       `${backendUrl}/posts/delete/${postId}/${commentId}`,
       {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -319,6 +327,7 @@ export const deleteReply = createAsyncThunk(
       `${backendUrl}/posts/delete/${postId}/${commentId}/${replyId}`,
       {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },

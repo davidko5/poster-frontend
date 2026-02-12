@@ -3,7 +3,7 @@ export const frontendBaseUrl = "/poster-frontend"
 export const isDev = import.meta.env.DEV
 
 export const backendUrl = isDev
-  ? "http://localhost:3001"
+  ? "http://localhost:5012"
   : "https://davidko5-express.onrender.com"
 
 export const authServiceBackendUrl = isDev
@@ -17,5 +17,5 @@ const appUrl = isDev
   : "https://davidko5.github.io/poster-frontend"
 
 export const authServiceLoginUrl = isDev
-  ? `http://localhost:3000/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
-  : `https://mtas.kondraten.dev/user-auth/login?redirectUri=${appUrl}/posts&appId=${appId}`
+  ? `http://localhost:5011/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
+  : `https://multi-tenant-auth-service-wf1k.onrender.com/user-auth/login?redirectUri=${appUrl}/posts&appId=${appId}`
