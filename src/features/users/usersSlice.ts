@@ -7,15 +7,12 @@ import {
 import { AppDispatch, RootState } from "../../app/store"
 import { User } from "../../types"
 import { MtasUser } from "../../types/mtas-user.type"
+import { authServiceBackendUrl } from "../../misc-constant"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
   ? "http://localhost:5012"
   : "https://davidko5-express.onrender.com"
-
-const authServiceUrl = isDev
-  ? "http://localhost:5010"
-  : "https://mtas.kondraten.dev"
 
 const usersAdapter = createEntityAdapter<MtasUser>({
   selectId: (instance: any) => instance.id,
@@ -60,7 +57,7 @@ const usersSlice = createSlice({
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${authServiceUrl}/users`, {
+    const response = await fetch(`${authServiceBackendUrl}/users`, {
       credentials: "include",
     })
 
@@ -86,7 +83,7 @@ export const getAuthenticatedUser = createAsyncThunk<
   }
 >("users/getAuthenticatedUser", async (_, { rejectWithValue }) => {
   const response = await fetch(
-    `${authServiceUrl}/user-auth/authenticated-user`,
+    `${authServiceBackendUrl}/user-auth/authenticated-user`,
     {
       credentials: "include",
     },
@@ -114,14 +111,17 @@ export const exchangeAuthCodeForToken = createAsyncThunk<
     params: { authCode: string; appId: string; redirectUri: string },
     { rejectWithValue, dispatch },
   ) => {
-    const response = await fetch(`${authServiceUrl}/user-auth/exchange-token`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${authServiceBackendUrl}/user-auth/exchange-token`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
       },
-      body: JSON.stringify(params),
-    })
+    )
 
     if (!response.ok) {
       // try to parse JSON error, or fallback
@@ -139,7 +139,7 @@ export const exchangeAuthCodeForToken = createAsyncThunk<
 )
 
 export const logout = createAsyncThunk("users/logout", async () => {
-  fetch(`${authServiceUrl}/user-auth/logout`, {
+  fetch(`${authServiceBackendUrl}/user-auth/logout`, {
     credentials: "include",
     method: "POST",
   })
