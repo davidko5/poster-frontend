@@ -25,7 +25,7 @@ export const Navbar = () => {
           <h1 className={styles.logoHeader}>Poster</h1>
           <a href="https://github.com/davidko5/poster-frontend" target="_blank">
             <img
-              src="/images/github-mark.svg"
+              src={`${frontendBaseUrl}/images/github-mark.svg`}
               alt="github link"
               className={styles.githubLink}
             />

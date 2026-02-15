@@ -8,7 +8,7 @@ export const backendUrl = isDev
 
 export const authServiceBackendUrl = isDev
   ? "http://localhost:5010"
-  : "https://mtas.kondraten.dev/api"
+  : "https://multi-tenant-auth-service-mtas-ui.vercel.app"
 
 export const appId = import.meta.env.VITE_APP_ID
 
