@@ -58,7 +58,9 @@ export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${authServiceBackendUrl}/users`, {
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
+      },
     })
 
     if (!response.ok) {
@@ -85,7 +87,9 @@ export const getAuthenticatedUser = createAsyncThunk<
   const response = await fetch(
     `${authServiceBackendUrl}/user-auth/authenticated-user`,
     {
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
+      },
     },
   )
   if (!response.ok) {
@@ -115,7 +119,6 @@ export const exchangeAuthCodeForToken = createAsyncThunk<
       `${authServiceBackendUrl}/user-auth/exchange-token`,
       {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -132,6 +135,9 @@ export const exchangeAuthCodeForToken = createAsyncThunk<
       } catch {}
       return rejectWithValue(message)
     }
+    const { access_token } = await response.json()
+
+    localStorage.setItem("access_token", access_token)
 
     dispatch(getAuthenticatedUser())
     dispatch(fetchUsers())
@@ -139,10 +145,14 @@ export const exchangeAuthCodeForToken = createAsyncThunk<
 )
 
 export const logout = createAsyncThunk("users/logout", async () => {
-  fetch(`${authServiceBackendUrl}/user-auth/logout`, {
-    credentials: "include",
+  await fetch(`${authServiceBackendUrl}/user-auth/logout`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
+    },
     method: "POST",
   })
+
+  localStorage.removeItem("access_token")
 })
 
 export const {
