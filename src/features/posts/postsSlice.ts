@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
 import { Comment, User } from "../../types"
+import { authFetch } from "../../utils/api"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
@@ -55,7 +56,7 @@ const postsSlice = createSlice({
 })
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await fetch(`${backendUrl}/posts/list`)
+  const response = await authFetch(`${backendUrl}/posts/list`)
   return response.json()
 })
 
@@ -71,7 +72,7 @@ export const addPost = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`${backendUrl}/posts/add`, {
+    const response = await authFetch(`${backendUrl}/posts/add`, {
       method: "POST",
       body: JSON.stringify({
         content: content,
@@ -81,6 +82,7 @@ export const addPost = createAsyncThunk(
       credentials: "include",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${localStorage.access_token}`,
       },
     })
     dispatch(fetchPosts())
@@ -102,7 +104,7 @@ export const addComment = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`${backendUrl}/posts/add/${postId}`, {
+    const response = await authFetch(`${backendUrl}/posts/add/${postId}`, {
       method: "PUT",
       body: JSON.stringify({
         content: content,
@@ -137,7 +139,7 @@ export const addReply = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(
+    const response = await authFetch(
       `${backendUrl}/posts/add/${postId}/${commentId}`,
       {
         method: "PUT",
@@ -172,7 +174,7 @@ export const editPost = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`${backendUrl}/posts/edit/${postId}`, {
+    const response = await authFetch(`${backendUrl}/posts/edit/${postId}`, {
       method: "PUT",
       body: JSON.stringify({
         ...(content && { content }),
@@ -204,7 +206,7 @@ export const editComment = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(
+    const response = await authFetch(
       `${backendUrl}/posts/edit/${postId}/${commentId}`,
       {
         method: "PUT",
@@ -241,7 +243,7 @@ export const editReply = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(
+    const response = await authFetch(
       `${backendUrl}/posts/edit/${postId}/${commentId}/${replyId}`,
       {
         method: "PUT",
@@ -270,7 +272,7 @@ export const deletePost = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(`${backendUrl}/posts/delete/${postId}`, {
+    const response = await authFetch(`${backendUrl}/posts/delete/${postId}`, {
       method: "DELETE",
       credentials: "include",
       headers: {
@@ -294,7 +296,7 @@ export const deleteComment = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(
+    const response = await authFetch(
       `${backendUrl}/posts/delete/${postId}/${commentId}`,
       {
         method: "PUT",
@@ -323,7 +325,7 @@ export const deleteReply = createAsyncThunk(
     },
     { dispatch },
   ) => {
-    const response = await fetch(
+    const response = await authFetch(
       `${backendUrl}/posts/delete/${postId}/${commentId}/${replyId}`,
       {
         method: "PUT",

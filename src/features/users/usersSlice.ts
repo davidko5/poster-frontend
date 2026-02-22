@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "../../app/store"
 import { User } from "../../types"
 import { MtasUser } from "../../types/mtas-user.type"
 import { authServiceBackendUrl } from "../../misc-constant"
+import { authFetch } from "../../utils/api"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
@@ -57,7 +58,7 @@ const usersSlice = createSlice({
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${authServiceBackendUrl}/users`, {
+    const response = await authFetch(`${authServiceBackendUrl}/users`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
       },
@@ -84,7 +85,7 @@ export const getAuthenticatedUser = createAsyncThunk<
     rejectValue: string
   }
 >("users/getAuthenticatedUser", async (_, { rejectWithValue }) => {
-  const response = await fetch(
+  const response = await authFetch(
     `${authServiceBackendUrl}/user-auth/authenticated-user`,
     {
       headers: {
@@ -145,7 +146,7 @@ export const exchangeAuthCodeForToken = createAsyncThunk<
 )
 
 export const logout = createAsyncThunk("users/logout", async () => {
-  await fetch(`${authServiceBackendUrl}/user-auth/logout`, {
+  await authFetch(`${authServiceBackendUrl}/user-auth/logout`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
     },
