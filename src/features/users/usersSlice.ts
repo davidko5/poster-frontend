@@ -58,11 +58,7 @@ const usersSlice = createSlice({
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
-    const response = await authFetch(`${authServiceBackendUrl}/users`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
-      },
-    })
+    const response = await authFetch(`${authServiceBackendUrl}/users`)
 
     if (!response.ok) {
       // try to parse JSON error, or fallback

@@ -6,6 +6,7 @@ import { YouLabel } from "../components/YouLabel"
 import { RiseLoader } from "react-spinners"
 import { Link } from "react-router-dom"
 import { authServiceLoginUrl } from "../../misc-constant"
+import { UserAvatar } from "../components/UserAvatar"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -17,15 +18,7 @@ const UserProfileExcerpt = ({ userId }: { userId: string }) => {
 
   return (
     <div className={styles.userProfileExcerpt}>
-      {/* <img
-        src={`${frontendBaseUrl}/images/avatars/${user.image.png}`}
-        alt="profile pic"
-      /> */}
-      <img
-        src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
-        style={{ width: "86px", height: "86px" }}
-        alt="author"
-      />
+      <UserAvatar userId={user.id} size={72} />
 
       <div className={styles.userNameRegisterDate}>
         <div className={styles.userNameYouLabelContainer}>

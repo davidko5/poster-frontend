@@ -1,95 +1,212 @@
-$moderateBlue: hsl(238, 40%, 52%);
-$softRed: hsl(358, 79%, 66%);
-$lightGrayishBlue: hsl(239, 57%, 85%);
-$paleRed: hsl(357, 100%, 86%);
-$darkBlue: hsl(212, 24%, 26%);
-$grayishBlue: hsl(211, 10%, 45%);
-$lightGray: hsl(223, 19%, 93%);
-$veryLightGray: hsl(228, 33%, 97%);
+$primary: hsl(243, 75%, 59%);
+$primary-light: hsl(243, 100%, 96%);
+$navbar-bg: hsl(222, 47%, 11%);
+$navbar-border: hsl(222, 47%, 17%);
 $white: hsl(0, 0%, 100%);
+$text-muted-nav: hsl(220, 20%, 65%);
 
 .navbarContainer {
-  border-bottom: 1px solid $lightGray;
-  background-color: white;
-}
-
-section h1 {
-  margin: 0px;
-  font-size: 3rem;
-  margin-left: 10px;
-  color: $darkBlue;
-}
-
-section h2 {
-  margin: 0px;
-  font-size: 2rem;
-  margin-left: 10px;
-  color: $darkBlue;
-}
-
-.mtasLink {
-  color: $darkBlue;
-}
-
-.navBtnsAndSelectContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: $navbar-bg;
+  border-bottom: 1px solid $navbar-border;
+  height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-right: 10px;
+  padding: 0 24px;
+  gap: 8px;
 }
 
-.navBarLink {
-  height: 25px;
-  background-color: $moderateBlue;
-  border-radius: 9px;
-  margin: 10px 0 10px 10px;
-  padding-top: 5px;
-  a,
-  div {
-    display: inline;
-    color: $white;
-    text-decoration: none;
-    padding: 13px 20px;
-  }
-  a:hover {
-    color: $white;
-    text-decoration: underline;
-  }
-}
-.navBarButton:hover {
-  background-color: $lightGrayishBlue;
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
-.navBarInfo {
-  box-sizing: border-box;
-  background-color: $moderateBlue;
-  border-radius: 9px;
-  margin: 10px 0 10px 10px;
+.logoText {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
   color: $white;
-  padding: 7px 20px;
-}
-
-.navBarButton {
-  background-color: $moderateBlue;
-  border-radius: 9px;
-  margin: 10px 0 10px 10px;
-  color: $white;
-  padding: 7px 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.navBarMessage {
-  color: $grayishBlue;
-  font-weight: 500;
+  letter-spacing: -0.5px;
 }
 
 .githubLink {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
   &:hover {
-    opacity: 0.8;
+    opacity: 1;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+  }
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 16px;
+}
+
+.navBarLink {
+  a, div {
+    display: block;
+    color: $text-muted-nav;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.15s, background-color 0.15s;
+    &:hover {
+      color: $white;
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+}
+
+.loginLink {
+  display: inline-block;
+  background: linear-gradient(135deg, hsl(243, 75%, 63%), hsl(260, 70%, 54%));
+  color: $white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(99, 91, 255, 0.35);
+  transition: opacity 0.15s, box-shadow 0.15s;
+  &:hover {
+    opacity: 0.9;
+    color: $white;
+    box-shadow: 0 4px 14px rgba(99, 91, 255, 0.5);
+  }
+}
+
+.navBarMessage {
+  margin-left: auto;
+  margin-right: 8px;
+  color: $text-muted-nav;
+  font-size: 13px;
+  font-weight: 400;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 4px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 380px;
+}
+
+.navRightSection {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.aboutBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: $text-muted-nav;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+  font-family: inherit;
+  &:hover {
+    color: $white;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.navBarInfo {
+  color: $white;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.navBarButton {
+  background: linear-gradient(135deg, hsl(243, 75%, 63%), hsl(260, 70%, 54%));
+  border: none;
+  color: $white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.15s, opacity 0.15s;
+  &:hover {
+    opacity: 0.88;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .navBarMessage {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .navbarContainer {
+    padding: 0 10px;
+    gap: 2px;
+  }
+  .logoSection {
+    gap: 6px;
+  }
+  .logoText {
+    font-size: 17px;
+  }
+  .githubLink {
+    display: none;
+  }
+  .navLinks {
+    margin-left: 4px;
+    gap: 0;
+  }
+  .navBarLink {
+    a, div {
+      padding: 5px 8px;
+      font-size: 13px;
+    }
+  }
+  .aboutBtn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .navBarInfo {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .navRightSection {
+    gap: 4px;
+  }
+  .navBarButton {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  .loginLink {
+    padding: 5px 10px;
+    font-size: 12px;
   }
 }

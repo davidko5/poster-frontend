@@ -1,70 +1,101 @@
-$moderateBlue: hsl(238, 40%, 52%);
-$softRed: hsl(358, 79%, 66%);
-$lightGrayishBlue: hsl(239, 57%, 85%);
-$paleRed: hsl(357, 100%, 86%);
-$darkBlue: hsl(212, 24%, 26%);
-$grayishBlue: hsl(211, 10%, 45%);
-$lightGray: hsl(223, 19%, 93%);
-$veryLightGray: hsl(228, 33%, 97%);
+$primary: hsl(243, 75%, 59%);
+$primary-light: hsl(243, 100%, 96%);
+$text-primary: hsl(222, 39%, 11%);
+$text-secondary: hsl(220, 14%, 46%);
+$text-muted: hsl(220, 13%, 66%);
+$surface: hsl(0, 0%, 100%);
+$border: hsl(220, 20%, 91%);
 $white: hsl(0, 0%, 100%);
 
 .usersListContainer {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 16px;
+  padding: 32px 24px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+
   .userProfileExcerpt {
     display: flex;
     align-items: center;
-    background-color: $white;
-    margin: 20px;
-    padding: 10px;
-    border-radius: 25px;
+    gap: 14px;
+    background-color: $surface;
+    padding: 18px 22px;
+    border-radius: 16px;
+    border: 1px solid $border;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    min-width: 240px;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    cursor: default;
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(99, 91, 255, 0.1);
+      border-color: hsl(243, 80%, 87%);
+      transform: translateY(-2px);
+    }
+
     img {
-        margin-right: 10px ;
+      border-radius: 50%;
+      border: 2px solid $primary-light;
+      flex-shrink: 0;
     }
-    .userNameYouLabelContainer{
+
+    .userNameYouLabelContainer {
       display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
     }
+
     .userName {
-        margin-right: 10px;
-        font-weight: 500;
+      font-weight: 600;
+      font-size: 15px;
+      color: $text-primary;
     }
+
     .userNameRegisterDate {
-        .registered {
-            color: $grayishBlue;
-        }
+      display: flex;
+      flex-direction: column;
+
+      .registered {
+        color: $text-muted;
+        font-size: 12px;
+      }
     }
   }
 }
 
 .notFoundContainer {
   min-height: 150px;
-  padding: 16px;
+  padding: 24px;
   box-sizing: border-box;
-  width: 300px;
-  margin: 100px auto;
-  // padding: 70px 0;
+  width: 340px;
+  margin: 60px auto;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: $white;
-  font-size: 32px;
-  // line-height: 32px;
+  background-color: $surface;
+  font-size: 16px;
   font-weight: 500;
-  color: $darkBlue;
-  border-radius: 10px;
-  transition: box-shadow 0.3s;
-  box-shadow: 0px 0px 15px $grayishBlue;
-}
-
-.notFoundContainer:hover {
-  box-shadow: 0px 0px 35px $grayishBlue;
+  color: $text-primary;
+  border-radius: 16px;
+  border: 1px solid $border;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .unauthorizedLink {
   a {
     text-decoration: none;
-    color: $darkBlue;
+    color: $primary;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

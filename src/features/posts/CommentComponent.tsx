@@ -14,8 +14,7 @@ import { DeleteEditBtns } from "./DeleteEditBtns"
 import { CommentReply } from "./CommentReply"
 import { selectUserById } from "../users/usersSlice"
 import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
-
-const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+import { UserAvatar } from "../components/UserAvatar"
 
 export const CommentComponent = ({
   postId,
@@ -85,14 +84,7 @@ export const CommentComponent = ({
           )}
           <div className={styles.userLabelAndContentContainer}>
             <div className={styles.postAuthorImgNameTimeAgo}>
-              {/* <img
-                src={`${frontendBaseUrl}/images/avatars/${comment.author.image.webp}`}
-                alt="author"
-              /> */}
-              <img
-                src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
-                alt="author"
-              />
+              <UserAvatar userId={comment.authorId} size={34} />
               <span className={styles.userName}>
                 {author?.name || getPublicUserNamePlaceholder(comment.authorId)}
               </span>

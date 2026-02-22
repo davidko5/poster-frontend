@@ -1,0 +1,169 @@
+$primary: hsl(243, 75%, 59%);
+$primary-light: hsl(243, 100%, 96%);
+$text-primary: hsl(222, 39%, 11%);
+$text-secondary: hsl(220, 14%, 46%);
+$border: hsl(220, 20%, 91%);
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 14, 35, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  color: $text-secondary;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s, background-color 0.15s;
+  &:hover {
+    color: $text-primary;
+    background-color: $border;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.5px;
+}
+
+.description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: $text-secondary;
+}
+
+.sectionLabel {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-secondary;
+}
+
+.techSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: inline-block;
+  background: $primary-light;
+  color: $primary;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid hsl(243, 80%, 88%);
+}
+
+.mtasSection {
+  background: hsl(220, 25%, 97%);
+  border: 1px solid $border;
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mtasDescription {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: $text-secondary;
+}
+
+.mtasTechRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badgeSecondary {
+  display: inline-block;
+  background: #fff;
+  color: $text-secondary;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid $border;
+}
+
+.link {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: $primary;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .overlay {
+    padding: 12px;
+  }
+  .modal {
+    padding: 24px 20px 20px;
+    gap: 14px;
+    border-radius: 16px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .description {
+    font-size: 13px;
+  }
+  .sectionLabel {
+    margin-bottom: 6px;
+  }
+  .mtasSection {
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .mtasDescription {
+    font-size: 12px;
+  }
+}

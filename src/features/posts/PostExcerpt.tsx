@@ -7,6 +7,7 @@ import { YouLabel } from "../components/YouLabel"
 import { TimeAgo } from "./TimeAgo"
 import { selectUserById } from "../users/usersSlice"
 import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
+import { UserAvatar } from "../components/UserAvatar"
 
 const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
@@ -30,14 +31,7 @@ export function PostExcerpt({
       className={styles.postPreviewContainer}
     >
       <div className={styles.postAuthorImgNameTimeAgo}>
-        {/* <img
-          src={`${frontendBaseUrl}/images/avatars/${post.author.image.webp}`}
-          alt="author"
-        /> */}
-        <img
-          src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
-          alt="author"
-        />
+        <UserAvatar userId={post.authorId} size={32} />
         <span className={styles.userName}>
           {author?.name || getPublicUserNamePlaceholder(post.authorId)}
         </span>
@@ -51,6 +45,10 @@ export function PostExcerpt({
           ? post.content
           : post.content.slice(0, 70) + "..."}
       </p>
+      <div className={styles.cardFooter}>
+        <span className={styles.cardStat}>▲ {post.score}</span>
+        <span className={styles.cardStat}>💬 {post.comments.length + post.comments.reduce((sum, c) => sum + c.replies.length, 0)}</span>
+      </div>
     </div>
   ) : (
     <div className={styles.postPreviewContainer}>

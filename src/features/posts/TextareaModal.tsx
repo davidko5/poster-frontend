@@ -42,16 +42,14 @@ export const TextareaModal = ({
   return (
     <div className={styles.textareaModalContainer}>
       <div ref={modalContainerRef} className={styles.textareaModal}>
+        <p className={styles.modalTitle}>New Post</p>
         <textarea
           data-testid="addPostTextarea"
           value={textareaValue}
           onChange={(e) => setTextareaValue(e.target.value)}
           ref={textareaRef}
-          placeholder={"What is on your mind ?"}
+          placeholder={"What's on your mind?"}
           onKeyDown={ctrlEnterConfirmation}
-          style={{
-            padding: "10px",
-          }}
         />
         <button
           className={styles.confirmationBtn}

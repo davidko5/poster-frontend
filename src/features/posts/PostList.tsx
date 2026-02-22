@@ -39,7 +39,13 @@ export const PostList = () => {
           </div>
         </div>
       ) : orderedPostsIds.length ? (
-        <div className={styles.postsPreviewContainer}>{layedPosts}</div>
+        <>
+          <div className={styles.pageHeader}>
+            <h2 className={styles.pageTitle}>Recent Posts</h2>
+            <span className={styles.pageCount}>{orderedPostsIds.length} posts</span>
+          </div>
+          <div className={styles.postsPreviewContainer}>{layedPosts}</div>
+        </>
       ) : (
         <div data-testid="noPostsModal" className={styles.notFoundContainer}>
           No posts found

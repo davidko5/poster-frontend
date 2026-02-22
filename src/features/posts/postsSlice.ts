@@ -82,7 +82,6 @@ export const addPost = createAsyncThunk(
       credentials: "include",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.access_token}`,
       },
     })
     dispatch(fetchPosts())

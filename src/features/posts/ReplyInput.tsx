@@ -3,8 +3,7 @@ import styles from "./Posts.module.scss"
 import { useAppSelector } from "../../app/hooks"
 import { selectUserById } from "../users/usersSlice"
 import { useOutsideAlerter } from "../../utils/useOutsideAlerter"
-
-const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+import { UserAvatar } from "../components/UserAvatar"
 
 interface ReplyInputProps {
   placeholder: string
@@ -25,6 +24,7 @@ export const ReplyInput = (props: ReplyInputProps) => {
     disabled = false,
   } = props
 
+  const currentUser = useAppSelector((state) => state.users.currentUser)
   const [textareaValue, setTextareaValue] = useState("")
   const componentContainerRef = useRef(null)
   const [windowSize, setWindowSize] = useState({
@@ -70,14 +70,7 @@ export const ReplyInput = (props: ReplyInputProps) => {
       ref={componentContainerRef}
     >
       {windowSize.width > 600 && (
-        // <img
-        //   src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
-        //   alt="author"
-        // />
-        <img
-          src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
-          alt="author"
-        />
+        <UserAvatar userId={currentUser?.id ?? "?"} size={36} />
       )}
       <textarea
         data-testid="replyInputTextarea"
@@ -87,7 +80,6 @@ export const ReplyInput = (props: ReplyInputProps) => {
         placeholder={placeholder}
         onKeyDown={ctrlEnterConfirmation}
         style={{
-          padding: "10px",
           opacity: disabled ? 0.5 : 1,
         }}
         disabled={disabled}
@@ -98,7 +90,7 @@ export const ReplyInput = (props: ReplyInputProps) => {
           className={styles.replyInputBtn}
           onClick={handleConfirmation}
           style={{
-            backgroundColor: disabled ? "hsl(239, 57%, 85%)" : "",
+            backgroundColor: disabled ? "hsl(243, 100%, 86%)" : "",
             cursor: disabled ? "default" : "pointer",
           }}
         >
@@ -107,19 +99,12 @@ export const ReplyInput = (props: ReplyInputProps) => {
       )}
       {windowSize.width < 600 && (
         <div className={styles.imageConfirmBtn}>
-          {/* <img
-            src={`${frontendBaseUrl}/images/avatars/${currentUser?.image.png}`}
-            alt="author"
-          /> */}
-          <img
-            src={`${frontendBaseUrl}/images/profile-image-placeholder.png`}
-            alt="author"
-          />
+          <UserAvatar userId={currentUser?.id ?? "?"} size={36} />
           <div
             className={styles.replyInputBtn}
             onClick={handleConfirmation}
             style={{
-              backgroundColor: disabled ? "hsl(239, 57%, 85%)" : "",
+              backgroundColor: disabled ? "hsl(243, 100%, 86%)" : "",
               cursor: disabled ? "default" : "pointer",
             }}
           >
