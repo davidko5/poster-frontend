@@ -8,7 +8,7 @@ export const backendUrl = isDev
 
 export const authServiceBackendUrl = isDev
   ? "http://localhost:5010"
-  : "https://multi-tenant-auth-service-wf1k.onrender.com"
+  : "https://mtas-api.kondraten.dev"
 
 export const appId = import.meta.env.VITE_APP_ID
 
@@ -18,4 +18,4 @@ const appUrl = isDev
 
 export const authServiceLoginUrl = isDev
   ? `http://localhost:5011/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
-  : `https://multi-tenant-auth-service-mtas-ui.vercel.app/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
+  : `https://mtas-ui.kondraten.dev/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
