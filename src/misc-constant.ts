@@ -2,9 +2,9 @@ export const frontendBaseUrl = "/poster-frontend"
 
 export const isDev = import.meta.env.DEV
 
-export const backendUrl = isDev
+export const backendUrl = !isDev
   ? "http://localhost:5012"
-  : "https://davidko5-express.onrender.com"
+  : "https://express.kondraten.dev"
 
 export const authServiceBackendUrl = isDev
   ? "http://localhost:5010"
@@ -12,10 +12,8 @@ export const authServiceBackendUrl = isDev
 
 export const appId = import.meta.env.VITE_APP_ID
 
-const appUrl = isDev
-  ? "http://localhost:5173/poster-frontend"
-  : "https://davidko5.github.io/poster-frontend"
+const redirectUri = `${import.meta.env.VITE_REDIRECT_URI}/auth/callback`
 
 export const authServiceLoginUrl = isDev
-  ? `http://localhost:5011/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
-  : `https://mtas-ui.kondraten.dev/user/login?redirectUri=${appUrl}/posts&appId=${appId}`
+  ? `http://localhost:5011/user/login?redirectUri=${redirectUri}&appId=${appId}`
+  : `https://mtas-ui.kondraten.dev/user/login?redirectUri=${redirectUri}&appId=${appId}`

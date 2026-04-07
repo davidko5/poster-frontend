@@ -4,11 +4,8 @@ import {
   createSelector,
   createSlice,
 } from "@reduxjs/toolkit"
-import { AppDispatch, RootState } from "../../app/store"
-import { User } from "../../types"
+import { RootState } from "../../app/store"
 import { MtasUser } from "../../types/mtas-user.type"
-import { authServiceBackendUrl } from "../../misc-constant"
-import { authFetch } from "../../utils/api"
 
 const isDev = import.meta.env.DEV
 const backendUrl = isDev
@@ -58,7 +55,9 @@ const usersSlice = createSlice({
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
-    const response = await authFetch(`${authServiceBackendUrl}/users`)
+    const response = await fetch(`${backendUrl}/auth/users`, {
+      credentials: "include",
+    })
 
     if (!response.ok) {
       // try to parse JSON error, or fallback
@@ -81,14 +80,9 @@ export const getAuthenticatedUser = createAsyncThunk<
     rejectValue: string
   }
 >("users/getAuthenticatedUser", async (_, { rejectWithValue }) => {
-  const response = await authFetch(
-    `${authServiceBackendUrl}/user-auth/authenticated-user`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
-      },
-    },
-  )
+  const response = await fetch(`${backendUrl}/auth/me`, {
+    credentials: "include",
+  })
   if (!response.ok) {
     // try to parse JSON error, or fallback
     let message = `HTTP ${response.status}`
@@ -102,54 +96,11 @@ export const getAuthenticatedUser = createAsyncThunk<
   return await response.json()
 })
 
-export const exchangeAuthCodeForToken = createAsyncThunk<
-  void,
-  { authCode: string; appId: string; redirectUri: string },
-  { dispatch: AppDispatch }
->(
-  "users/exchangeToken",
-  async (
-    params: { authCode: string; appId: string; redirectUri: string },
-    { rejectWithValue, dispatch },
-  ) => {
-    const response = await fetch(
-      `${authServiceBackendUrl}/user-auth/exchange-token`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(params),
-      },
-    )
-
-    if (!response.ok) {
-      // try to parse JSON error, or fallback
-      let message = `HTTP ${response.status}`
-      try {
-        const err = await response.json()
-        message = err.message || message
-      } catch {}
-      return rejectWithValue(message)
-    }
-    const { access_token } = await response.json()
-
-    localStorage.setItem("access_token", access_token)
-
-    dispatch(getAuthenticatedUser())
-    dispatch(fetchUsers())
-  },
-)
-
 export const logout = createAsyncThunk("users/logout", async () => {
-  await authFetch(`${authServiceBackendUrl}/user-auth/logout`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("access_token") ?? ""}`,
-    },
+  await fetch(`${backendUrl}/auth/logout`, {
     method: "POST",
+    credentials: "include",
   })
-
-  localStorage.removeItem("access_token")
 })
 
 export const {

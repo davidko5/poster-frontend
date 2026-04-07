@@ -8,7 +8,6 @@ import { PostList } from "./features/posts/PostList"
 import { SinglePost } from "./features/posts/SinglePost"
 import { Navbar } from "./features/navbar/Navbar"
 import { UsersList } from "./features/users/UsersList"
-import { AuthHandler } from "./features/users/AuthHandler"
 import { BackgroundPaths } from "./features/components/BackgroundPaths"
 
 const frontendBaseUrl = "/poster-frontend"
@@ -25,7 +24,6 @@ function App() {
   return (
     <BrowserRouter>
       <BackgroundPaths />
-      <AuthHandler />
       <Navbar />
       <Routes>
         <Route
