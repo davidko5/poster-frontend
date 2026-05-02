@@ -8,8 +8,7 @@ import { TimeAgo } from "./TimeAgo"
 import { selectUserById } from "../users/usersSlice"
 import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
 import { UserAvatar } from "../components/UserAvatar"
-
-const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+import { frontendBaseUrl } from "../../misc-constant"
 
 export function PostExcerpt({
   postId,
@@ -47,7 +46,11 @@ export function PostExcerpt({
       </p>
       <div className={styles.cardFooter}>
         <span className={styles.cardStat}>▲ {post.score}</span>
-        <span className={styles.cardStat}>💬 {post.comments.length + post.comments.reduce((sum, c) => sum + c.replies.length, 0)}</span>
+        <span className={styles.cardStat}>
+          💬{" "}
+          {post.comments.length +
+            post.comments.reduce((sum, c) => sum + c.replies.length, 0)}
+        </span>
       </div>
     </div>
   ) : (

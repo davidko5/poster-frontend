@@ -5,10 +5,8 @@ import { TimeAgo } from "../posts/TimeAgo"
 import { YouLabel } from "../components/YouLabel"
 import { RiseLoader } from "react-spinners"
 import { Link } from "react-router-dom"
-import { authServiceLoginUrl } from "../../misc-constant"
+import { authServiceLoginUrl, frontendBaseUrl } from "../../misc-constant"
 import { UserAvatar } from "../components/UserAvatar"
-
-const frontendBaseUrl = import.meta.env.VITE_BASE_URL
 
 const UserProfileExcerpt = ({ userId }: { userId: string }) => {
   const user = useAppSelector((state) => selectUserById(state, Number(userId)))

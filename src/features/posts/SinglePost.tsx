@@ -23,8 +23,7 @@ import { DeleteEditBtns } from "./DeleteEditBtns"
 import { selectUserById } from "../users/usersSlice"
 import { getPublicUserNamePlaceholder } from "../../utils/miscellaneous"
 import { UserAvatar } from "../components/UserAvatar"
-
-const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+import { frontendBaseUrl } from "../../misc-constant"
 
 export const SinglePost = () => {
   const dispatch = useAppDispatch()

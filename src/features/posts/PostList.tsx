@@ -5,8 +5,7 @@ import styles from "./Posts.module.scss"
 import { TextareaModal } from "./TextareaModal"
 import { PostExcerpt } from "./PostExcerpt"
 import { RiseLoader } from "react-spinners"
-
-const frontendBaseUrl = import.meta.env.VITE_BASE_URL
+import { frontendBaseUrl } from "../../misc-constant"
 
 export const PostList = () => {
   const dispatch = useAppDispatch()
@@ -42,7 +41,9 @@ export const PostList = () => {
         <>
           <div className={styles.pageHeader}>
             <h2 className={styles.pageTitle}>Recent Posts</h2>
-            <span className={styles.pageCount}>{orderedPostsIds.length} posts</span>
+            <span className={styles.pageCount}>
+              {orderedPostsIds.length} posts
+            </span>
           </div>
           <div className={styles.postsPreviewContainer}>{layedPosts}</div>
         </>
