@@ -9,8 +9,7 @@ import { SinglePost } from "./features/posts/SinglePost"
 import { Navbar } from "./features/navbar/Navbar"
 import { UsersList } from "./features/users/UsersList"
 import { BackgroundPaths } from "./features/components/BackgroundPaths"
-
-const frontendBaseUrl = "/poster-frontend"
+import { frontendBaseUrl } from "./misc-constant"
 
 function App() {
   const dispatch = useAppDispatch()

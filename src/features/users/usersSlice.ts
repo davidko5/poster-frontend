@@ -6,11 +6,7 @@ import {
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
 import { MtasUser } from "../../types/mtas-user.type"
-
-const isDev = import.meta.env.DEV
-const backendUrl = isDev
-  ? "http://localhost:5012"
-  : "https://davidko5-express.onrender.com"
+import { backendUrl } from "../../misc-constant"
 
 const usersAdapter = createEntityAdapter<MtasUser>({
   selectId: (instance: any) => instance.id,

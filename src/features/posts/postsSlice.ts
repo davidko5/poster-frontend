@@ -6,11 +6,7 @@ import {
 } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
 import { Comment, User } from "../../types"
-
-const isDev = import.meta.env.DEV
-const backendUrl = isDev
-  ? "http://localhost:5012"
-  : "https://express.kondraten.dev"
+import { backendUrl } from "../../misc-constant"
 
 interface PostsState {
   status: "idle" | "succeeded"
