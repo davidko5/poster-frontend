@@ -59,7 +59,7 @@ jobs:
 
       - name: Wait for React app to be ready
         run: |
-          while ! nc -z localhost 5173; do
+          while ! nc -z localhost 5013; do
             sleep 1
           done
 

@@ -5,7 +5,7 @@ import { TimeAgo } from "../posts/TimeAgo"
 import { YouLabel } from "../components/YouLabel"
 import { RiseLoader } from "react-spinners"
 import { Link } from "react-router-dom"
-import { authServiceLoginUrl, frontendBaseUrl } from "../../misc-constant"
+import { loginUrl, frontendBaseUrl } from "../../misc-constant"
 import { UserAvatar } from "../components/UserAvatar"
 
 const UserProfileExcerpt = ({ userId }: { userId: string }) => {
@@ -57,7 +57,7 @@ export const UsersList = () => {
           />
           <div className={styles.unauthorizedLink}>
             <p style={{ margin: "8px" }}>Error fetching users.</p>
-            <Link to={authServiceLoginUrl}>
+            <Link to={loginUrl}>
               You need to be logged in to access this page
               <img
                 src={`${frontendBaseUrl}/images/external-link.svg`}

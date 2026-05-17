@@ -22,7 +22,7 @@ describe("Poster Frontend", () => {
   beforeEach(async ({ page, request }) => {
     // Resetting(clearing) posts collection at database
     await request.post("http://localhost:3001/test/reset")
-    await page.goto("http://localhost:5173")
+    await page.goto("http://localhost:5013")
   })
 
   test("Front page can be opened", async ({ page }) => {

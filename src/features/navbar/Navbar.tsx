@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import styles from "./Navbar.module.scss"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { logout, selectCurrentUser } from "../users/usersSlice"
-import { authServiceLoginUrl, frontendBaseUrl } from "../../misc-constant"
+import { loginUrl, frontendBaseUrl } from "../../misc-constant"
 import { AboutModal } from "./AboutModal"
 
 export const Navbar = () => {
@@ -61,7 +61,7 @@ export const Navbar = () => {
               </button>
             </>
           ) : (
-            <Link to={authServiceLoginUrl} className={styles.loginLink}>
+            <Link to={loginUrl} className={styles.loginLink}>
               Login
             </Link>
           )}
