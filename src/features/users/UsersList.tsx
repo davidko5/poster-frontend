@@ -9,7 +9,7 @@ import { loginUrl, frontendBaseUrl } from "../../misc-constant"
 import { UserAvatar } from "../components/UserAvatar"
 
 const UserProfileExcerpt = ({ userId }: { userId: string }) => {
-  const user = useAppSelector((state) => selectUserById(state, Number(userId)))
+  const user = useAppSelector((state) => selectUserById(state, userId))
   const currentUser = useAppSelector((state) => state.users.currentUser)
 
   if (!user) return null

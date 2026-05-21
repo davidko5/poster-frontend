@@ -61,7 +61,7 @@ export const SinglePost = () => {
 
   const postsFetchStatus = useAppSelector((state) => state.posts.status)
   const author = useAppSelector((state) =>
-    selectUserById(state, Number(post?.authorId)),
+    selectUserById(state, post?.authorId || ""),
   )
 
   useEffect(() => {

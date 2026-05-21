@@ -63,7 +63,7 @@ export const CommentComponent = ({
     }
   }
   const author = useAppSelector((state) =>
-    selectUserById(state, Number(comment.authorId)),
+    selectUserById(state, comment.authorId),
   )
 
   return (
