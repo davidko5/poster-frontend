@@ -1,101 +1,370 @@
 $primary: hsl(243, 75%, 59%);
+$primary-hover: hsl(243, 75%, 53%);
 $primary-light: hsl(243, 100%, 96%);
+$primary-soft: hsl(243, 90%, 98%);
 $text-primary: hsl(222, 39%, 11%);
 $text-secondary: hsl(220, 14%, 46%);
 $text-muted: hsl(220, 13%, 66%);
 $surface: hsl(0, 0%, 100%);
 $border: hsl(220, 20%, 91%);
-$white: hsl(0, 0%, 100%);
 
-.usersListContainer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding: 32px 24px 60px;
+.usersPage {
   max-width: 1100px;
   margin: 0 auto;
+  padding: 32px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
-  .userProfileExcerpt {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background-color: $surface;
-    padding: 18px 22px;
-    border-radius: 16px;
-    border: 1px solid $border;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    min-width: 240px;
-    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-    cursor: default;
+.pageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
 
-    &:hover {
-      box-shadow: 0 6px 20px rgba(99, 91, 255, 0.1);
-      border-color: hsl(243, 80%, 87%);
-      transform: translateY(-2px);
-    }
+.pageTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.4px;
+}
 
-    img {
-      border-radius: 50%;
-      border: 2px solid $primary-light;
-      flex-shrink: 0;
-    }
+.pageCount {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: $text-muted;
+}
 
-    .userNameYouLabelContainer {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 2px;
-    }
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
-    .userName {
-      font-weight: 600;
-      font-size: 15px;
-      color: $text-primary;
-    }
+.searchWrap {
+  position: relative;
 
-    .userNameRegisterDate {
-      display: flex;
-      flex-direction: column;
-
-      .registered {
-        color: $text-muted;
-        font-size: 12px;
-      }
-    }
+  .searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-muted;
+    pointer-events: none;
   }
 }
 
-.notFoundContainer {
-  min-height: 150px;
-  padding: 24px;
-  box-sizing: border-box;
-  width: 340px;
-  margin: 60px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background-color: $surface;
-  font-size: 16px;
-  font-weight: 500;
-  color: $text-primary;
-  border-radius: 16px;
+.searchInput {
+  height: 38px;
+  padding: 0 12px 0 36px;
+  width: 240px;
+  max-width: 100%;
   border: 1px solid $border;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  background: $surface;
+  font-size: 14px;
+  color: $text-primary;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px $primary-light;
+  }
 }
 
-.unauthorizedLink {
-  a {
-    text-decoration: none;
-    color: $primary;
-    font-weight: 500;
+.sortSelect {
+  height: 38px;
+  padding: 0 32px 0 12px;
+  border: 1px solid $border;
+  border-radius: 10px;
+  background: $surface
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>")
+    no-repeat right 10px center;
+  font-size: 14px;
+  color: $text-primary;
+  appearance: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px $primary-light;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: $text-muted;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: $surface;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid $border;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+  min-width: 0;
+
+  &:hover {
+    box-shadow: 0 6px 18px rgba(99, 91, 255, 0.08);
+    border-color: hsl(243, 50%, 86%);
+    transform: translateY(-1px);
+  }
+}
+
+.userCardCurrent {
+  border-color: $primary;
+  background: linear-gradient(180deg, $primary-soft 0%, $surface 70%);
+  box-shadow: 0 1px 0 $primary-light inset, 0 2px 12px rgba(99, 91, 255, 0.08);
+}
+
+.avatarWrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+
+  .avatarInitials {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    &:hover {
-      text-decoration: underline;
-    }
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    letter-spacing: 0.5px;
   }
+}
+
+.userMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.userNameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 15px;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.youTag {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: $primary;
+  background: $primary-light;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.statChip {
+  font-size: 11px;
+  font-weight: 600;
+  color: $primary;
+  background: $primary-light;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.statMuted {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.skeleton {
+  pointer-events: none;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: $border;
+  }
+}
+
+.skeletonBlock {
+  background: linear-gradient(
+    90deg,
+    hsl(220, 20%, 94%) 0%,
+    hsl(220, 20%, 88%) 50%,
+    hsl(220, 20%, 94%) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: 6px;
+}
+
+.skeletonAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeletonLine {
+  height: 12px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.signedOutCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 36px 28px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.signedOutIcon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $primary-light;
+  color: $primary;
+  border-radius: 50%;
+}
+
+.errorIcon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: hsl(4, 100%, 96%);
+}
+
+.signedOutTitle {
+  margin: 4px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.3px;
+}
+
+.signedOutBody {
+  margin: 0;
+  font-size: 14px;
+  color: $text-secondary;
+  line-height: 1.55;
+}
+
+.signedOutCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 24px;
+  margin-top: 6px;
+  background: $primary;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+
+  &:hover {
+    background: $primary-hover;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.emptyResult {
+  padding: 24px;
+  text-align: center;
+  color: $text-secondary;
+  background: $surface;
+  border: 1px dashed $border;
+  border-radius: 12px;
+  font-size: 14px;
 }
